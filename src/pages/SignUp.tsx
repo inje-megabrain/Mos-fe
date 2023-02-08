@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { Navigate } from "react-router-dom";
 import Styled from "styled-components";
 import useSignUp from "../query/useSignUp";
 
@@ -17,7 +18,7 @@ const SignUp = () => {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
-  const { mutate: signup } = useSignUp();
+  const { mutate: signup, data } = useSignUp();
 
   const onChangeId = useCallback((e: any) => {
     setId(e.target.value);
@@ -30,6 +31,10 @@ const SignUp = () => {
   const onClickBtn = () => {
     signup({ id: id, pw: pw });
   };
+
+  if (data && data.access) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <SignUpStyle>

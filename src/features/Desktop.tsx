@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import focusAtom from "../atoms/focusAtom";
 import { IEntry } from "../types/entry";
-import { entrydata, transformEntry } from "../utils/entry";
+import { transformEntry } from "../utils/entry";
 import Panel from "./Panel";
 
 const Desktop = () => {
@@ -11,7 +11,7 @@ const Desktop = () => {
   const [entry, setEntry] = useState<IEntry[]>([]);
 
   useEffect(() => {
-    setEntry(transformEntry(entrydata, "desktop"));
+    setEntry(transformEntry("desktop"));
   }, []);
 
   return (
