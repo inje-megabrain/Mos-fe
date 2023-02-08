@@ -1,6 +1,7 @@
 import Styled from "styled-components";
 import { useState, useCallback } from "react";
 import useLogin from "../query/useLogin";
+import useCreateDir from "../query/useCreateDir";
 
 const LoginStyle = Styled.div`
   display: flex;
@@ -30,6 +31,7 @@ const Login = () => {
   const onClickBtn = () => {
     login({ id: id, pw: pw });
   };
+  const { mutate: createDir } = useCreateDir();
 
   return (
     <LoginStyle>
@@ -40,6 +42,13 @@ const Login = () => {
       </div>
       <div>
         <button onClick={onClickBtn}>로그인</button>
+        <button
+          onClick={() => {
+            createDir({ dir: "afgadgadfsdfgha" });
+          }}
+        >
+          TEST
+        </button>
       </div>
     </LoginStyle>
   );
