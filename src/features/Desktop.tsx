@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { uploadFile } from "../api/uploadFile";
 import focusAtom from "../atoms/focusAtom";
 import useFetchDir from "../query/useFetchDir";
 import { IEntry } from "../types/entry";
@@ -23,6 +24,10 @@ const Desktop = () => {
         focused={focusId === "Desktop"}
         onMouseDown={() => {
           setFocus("Desktop");
+        }}
+        onDropEntry={(e) => {
+          const files = e.dataTransfer?.files;
+          if (files) uploadFile({ dir: "", files });
         }}
       />
       <WindowLayer />

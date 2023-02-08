@@ -53,7 +53,11 @@ const DirectoryWindow = (props: WindowHandle<DirectoryPayload>) => {
           refresh={refetch}
         />
         <div style={{ flex: 1 }}>
-          <Panel focused={props.hasFocus()} entry={entry} />
+          <Panel
+            focused={props.hasFocus()}
+            entry={entry}
+            onDropEntry={() => {}}
+          />
         </div>
       </div>
     </BaseWindow>

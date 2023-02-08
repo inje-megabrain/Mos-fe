@@ -82,6 +82,7 @@ const AreaLayer = ({ area, setArea, children }: AreaLayerProps) => {
         left: 0,
         width: "100%",
         height: "100%",
+        zIndex: isDragging ? 1002 : 999,
       }}
     >
       {children}
@@ -92,7 +93,6 @@ const AreaLayer = ({ area, setArea, children }: AreaLayerProps) => {
             backgroundColor: "rgba(1,100,100,0.3)",
             border: "1px solid #eee",
             pointerEvents: "none",
-            zIndex: 888,
             ...normalize(area),
           }}
         ></div>
