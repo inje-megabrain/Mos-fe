@@ -3,9 +3,9 @@ import { v4 } from "uuid";
 
 export const entrydata = [
   {
-    name: "EntryTest",
+    name: "hel",
     isDir: true,
-    ext: "txt",
+    ext: "",
   },
   {
     name: "EntryTest",
@@ -144,6 +144,7 @@ export const transformEntry = (
   rawEntry: Omit<IEntry, "id" | "path">[],
   currentPath: string
 ) => {
+  console.log(rawEntry);
   return rawEntry.map((en) => ({
     ...en,
     path: `${currentPath}/${en.name}`,
