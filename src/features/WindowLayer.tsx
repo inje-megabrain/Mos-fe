@@ -16,7 +16,9 @@ export default function WindowLayer() {
           alignItems: "center",
           position: "fixed",
           left: 0,
-          background: "gray",
+          background: "rgba(255,255,255, 0.3)",
+          boxShadow: "0px -5px 5px rgba(255,255,255, 0.2) blur",
+          backdropFilter: "blur(50px)",
           width: "100%",
           bottom: 0,
         }}

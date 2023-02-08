@@ -86,6 +86,8 @@ export default class BaseWindow extends Component<
             ? document.body.clientHeight
             : this.state.height,
         }}
+        minWidth={200}
+        minHeight={200}
         position={{
           x: this.state.full ? 0 : this.state.x,
           y: this.state.full ? 0 : this.state.y,
@@ -107,14 +109,16 @@ export default class BaseWindow extends Component<
           left: 0,
           visibility: this.props.active ? "visible" : "hidden",
           border: "1px solid black",
-          zIndex: this.props.hasFocus() ? 1000 : 999,
+          zIndex: this.props.hasFocus() ? 1002 : 999,
           background: "white",
         }}
       >
         <Box
-          sx={{
+          style={{
             width: "100%",
             height: "100%",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
           <div
@@ -130,6 +134,7 @@ export default class BaseWindow extends Component<
                 whiteSpace: "nowrap",
                 textOverflow: "ellipsis",
                 cursor: "pointer",
+                padding: "0.3em 0.8em",
               }}
             >
               {this.props.name}
@@ -137,6 +142,7 @@ export default class BaseWindow extends Component<
             <div
               style={{
                 display: "flex",
+                padding: "0.3em 0.8em",
               }}
             >
               <button
@@ -153,7 +159,7 @@ export default class BaseWindow extends Component<
               </button>
             </div>
           </div>
-          {this.props.children}
+          <div style={{ flex: 1 }}>{this.props.children}</div>
         </Box>
       </Rnd>
     );

@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import PathItem from "../../features/PathItem";
 import { dividePath } from "../../utils/path";
 
@@ -10,33 +11,35 @@ const DirectoryHeader = ({ path, setPath }: DirectoryHeaderProp) => {
   return (
     <div
       style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
+        display: "grid",
+        gridTemplateColumns: "auto 50px",
         position: "sticky",
+        padding: "3px",
         top: 0,
         left: 0,
-        border: "1px solid black",
+        borderTop: "1px solid black",
+        borderBottom: "1px solid black",
       }}
     >
       <div
         style={{
           display: "flex",
-
-          padding: "3px",
           gap: "5px",
+          overflow: "hidden",
         }}
       >
         {dividePath(path).map((p, i, arr) => (
-          <PathItem
-            key={i}
-            onClick={() => {
-              const a = arr.slice(0, i + 1).join("/");
-              console.log(a);
-              setPath(a);
-            }}
-            name={p}
-          />
+          <Fragment key={i}>
+            <span> &gt; </span>
+            <PathItem
+              onClick={() => {
+                const a = arr.slice(0, i + 1).join("/");
+                console.log(a);
+                setPath(a);
+              }}
+              name={p}
+            />
+          </Fragment>
         ))}
       </div>
       <div>refresh</div>

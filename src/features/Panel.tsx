@@ -43,7 +43,6 @@ const Panel = ({
         left: 0,
         width: "100%",
         height: "100%",
-        padding: "1em",
       }}
     >
       <DragLayer onDropEntry={(e) => console.log(e)}>

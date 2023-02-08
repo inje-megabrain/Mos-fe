@@ -82,6 +82,7 @@ const AreaLayer = ({ area, setArea, children }: AreaLayerProps) => {
         left: 0,
         width: "100%",
         height: "100%",
+        zIndex: 100,
       }}
     >
       {children}

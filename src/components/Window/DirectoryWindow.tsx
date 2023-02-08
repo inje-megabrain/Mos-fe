@@ -29,8 +29,18 @@ const DirectoryWindow = (props: WindowHandle<DirectoryPayload>) => {
 
   return (
     <BaseWindow {...props}>
-      <DirectoryHeader path={props.payload.path} setPath={setPath} />
-      <Panel focused={props.hasFocus()} entry={[]} />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          height: "100%",
+        }}
+      >
+        <DirectoryHeader path={props.payload.path} setPath={setPath} />
+        <div style={{ flex: 1 }}>
+          <Panel focused={props.hasFocus()} entry={[]} />
+        </div>
+      </div>
     </BaseWindow>
   );
 };

@@ -67,7 +67,8 @@ const Entry = ({ area, data }: EntryProps) => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        background: isSelected ? "rgba(0, 0, 255, 0.5)" : "transparent",
+        padding: "5px",
+        background: isSelected ? "rgba(0, 120, 244, 0.5)" : "transparent",
       }}
     >
       <Icon width={60} height={60} type={"dir"} />
