@@ -63,6 +63,28 @@ const buttonStyle: CSSProperties = {
   padding: 0,
   width: 33,
   margin: 0,
+  marginRight: 2,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  background: "#026AFE",
+  border: "1px solid white",
+  borderRadius: "5px",
+  color: "white",
+};
+const buttonStyle2: CSSProperties = {
+  maxWidth: 33,
+  padding: 0,
+  width: 33,
+  margin: 0,
+  marginRight: 2,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  background: "#E46445",
+  border: "1px solid white",
+  borderRadius: "5px",
+  color: "white",
 };
 
 export default class BaseWindow extends Component<
@@ -130,7 +152,9 @@ export default class BaseWindow extends Component<
           top: 0,
           left: 0,
           visibility: this.props.active ? "visible" : "hidden",
-          border: "1px solid black",
+          //border: "2px solid black",
+          border: "3px solid #026AFE",
+          borderRadius: "10px 10px 0px 0px",
           zIndex: this.props.hasFocus() ? 1002 : 999,
           background: "white",
         }}
@@ -155,8 +179,11 @@ export default class BaseWindow extends Component<
                 overflow: "hidden",
                 whiteSpace: "nowrap",
                 textOverflow: "ellipsis",
-                cursor: "pointer",
+                cursor: "grab",
                 padding: "0.3em 0.8em",
+
+                backgroundColor: "#026AFE",
+                borderTopLeftRadius: "10px",
               }}
             >
               {this.props.name}
@@ -165,6 +192,8 @@ export default class BaseWindow extends Component<
               style={{
                 display: "flex",
                 padding: "0.3em 0.8em",
+                backgroundColor: "#026AFE",
+                borderTopRightRadius: "10px",
               }}
             >
               <button
@@ -176,8 +205,8 @@ export default class BaseWindow extends Component<
               <button style={buttonStyle} onClick={this.toggleFullScreen}>
                 ㅁ
               </button>
-              <button style={buttonStyle} onClick={this.props.destroy}>
-                X
+              <button style={buttonStyle2} onClick={this.props.destroy}>
+                ✖
               </button>
             </div>
           </div>

@@ -11,6 +11,7 @@ import { PromptPayload } from "../components/Window/PromptWindow";
 import useItemManager from "../hooks/useItemManager";
 import useWindowManager from "../hooks/useWindowManager";
 import useCreateDir from "../query/useCreateDir";
+import useCreateMemory from "../query/useCreateMemory";
 import { makePath } from "../utils/path";
 import EmptyContextMenu from "./EmptyContextMenu";
 import MultiFileContextMenu from "./MultiFileContextMenu";
