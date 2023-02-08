@@ -1,7 +1,17 @@
 import client from "./client";
 import { IUser } from "../types/user";
 
-export async function login() {
-  const response = await client.post<IUser>("/login");
-  return response.data;
+type LoginProps = {
+  id: string;
+  pw: string;
+};
+
+export async function login({ id, pw }: LoginProps) {
+  const response = await client
+    .post<IUser>("/login", { id, pw })
+    .then((res) => {
+      console.log(res);
+      return res.data;
+    });
+  return response;
 }
