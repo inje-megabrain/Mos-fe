@@ -22,7 +22,7 @@ export const makeWindow = (id: string, type: string, payload: any) => {
   return {
     type,
     id,
-    name: id,
+    name: "",
     payload,
     active: true,
   } as WindowContext;

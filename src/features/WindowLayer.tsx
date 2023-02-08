@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import Window from "../components/Window";
 import useWindowManager from "../hooks/useWindowManager";
+import WindowItem from "./WindowItem";
 
 export default function WindowLayer() {
   const { windows, createHandle, createWindow } = useWindowManager();
@@ -11,6 +12,8 @@ export default function WindowLayer() {
         style={{
           display: "flex",
           justifyContent: "flex-start",
+          gap: "4px",
+          alignItems: "center",
           position: "fixed",
           left: 0,
           background: "gray",
@@ -19,16 +22,17 @@ export default function WindowLayer() {
         }}
       >
         <>
-          <Button onClick={() => createWindow("dir", { path: "/hello" })}>
+          <Button onClick={() => createWindow("dir", { path: "/hello/h1/h2" })}>
             +
           </Button>
           {windows.map((ctx) => (
-            <button
+            <WindowItem
               key={ctx.id}
-              onClick={() => createHandle(ctx.id).setContext("active", true)}
-            >
-              {ctx.name}
-            </button>
+              {...ctx}
+              requestActive={() =>
+                createHandle(ctx.id).setContext("active", true)
+              }
+            />
           ))}
         </>
       </div>

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import Panel from "../../features/Panel";
+import { getNearEntryName } from "../../utils/path";
 import BaseWindow, { WindowHandle } from "./BaseWindow";
 import DirectoryHeader from "./DirectoryHeader";
 
@@ -13,6 +14,11 @@ const DirectoryWindow = (props: WindowHandle<DirectoryPayload>) => {
       // TODO request Entry data...
     }
   }, [props]);
+
+  useEffect(() => {
+    // set Window Name
+    props.setContext("name", getNearEntryName(props.payload.path));
+  }, []);
 
   const setPath = (path: string) => {
     props.setContext("payload", {

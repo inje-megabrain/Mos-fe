@@ -10,9 +10,10 @@ import DragLayer from "./DragLayer";
 type PanelProps = {
   focused: boolean;
   entrys: IEntry[];
+  isRow?: boolean;
 };
 
-const Panel = ({ focused, entrys }: PanelProps) => {
+const Panel = ({ focused, entrys, isRow }: PanelProps) => {
   const [area, setArea] = useState<AreaType>(INITIAL_AREA);
 
   return (
@@ -23,10 +24,11 @@ const Panel = ({ focused, entrys }: PanelProps) => {
         left: 0,
         width: "100%",
         height: "100%",
+        padding: "1em",
       }}
     >
       <DragLayer onDropEntry={(e) => console.log(e)}>
-        <div>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "5px" }}>
           {entrys.map((en) => (
             <Entry key={en.id} area={area} data={en} />
           ))}
