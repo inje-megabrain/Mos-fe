@@ -13,6 +13,18 @@ const SignUpStyle = Styled.div`
 `;
 
 const SignUp = () => {
+  const [id, setId] = useState("");
+  const [pw, setPw] = useState("");
+
+  const onChangeId = (text: string) => {
+    setId(text);
+  };
+  const onChangePw = (text: string) => {
+    setPw(text);
+  };
+
+  const onClickBtn = () => {};
+
   return (
     <SignUpStyle>
       <div className="title">SignUp</div>
@@ -21,7 +33,7 @@ const SignUp = () => {
         <input placeholder="password" />
       </div>
       <div>
-        <button>회원가입</button>
+        <button onClick={onClickBtn}>회원가입</button>
       </div>
     </SignUpStyle>
   );
