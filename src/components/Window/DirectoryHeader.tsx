@@ -13,13 +13,14 @@ const DirectoryHeader = ({ path, setPath, refresh }: DirectoryHeaderProp) => {
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: "auto 50px",
+        gridTemplateColumns: "auto 35px",
         position: "sticky",
         padding: "3px",
         top: 0,
         left: 0,
         borderTop: "1px solid black",
         borderBottom: "1px solid black",
+        backgroundColor: "#ECE9D8",
       }}
     >
       <div
@@ -43,7 +44,16 @@ const DirectoryHeader = ({ path, setPath, refresh }: DirectoryHeaderProp) => {
           </Fragment>
         ))}
       </div>
-      <button onClick={refresh}>refresh</button>
+      <button
+        style={{
+          marginRight: "12px",
+          display: "flex",
+          justifyContent: "center",
+        }}
+        onClick={refresh}
+      >
+        ⟲
+      </button>
     </div>
   );
 };
