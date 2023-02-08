@@ -29,11 +29,11 @@ client.interceptors.response.use((res) => {
 });
 
 export const setAccessToken = (token: string) => {
-  client.defaults.headers.common[ACCESS_HEADER_KEY] = `${TOKEN_TYPE} ${token}`;
+  client.defaults.headers.common[ACCESS_HEADER_KEY] = `${token}`;
 };
 
 export const setRefreshToken = (token: string) => {
-  client.defaults.headers.common[REFRESH_HEADER_KEY] = `${TOKEN_TYPE} ${token}`;
+  client.defaults.headers.common[REFRESH_HEADER_KEY] = `${token}`;
 };
 
 // export const setAuthHeader = (token: IToken) => {

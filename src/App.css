@@ -6,6 +6,8 @@
   left: 0;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 body {
@@ -14,7 +16,7 @@ body {
   overflow: hidden;
   margin: 0;
   padding: 0;
-  background-image: url("/public/images/background.jpg");
+  background-image: url("/images/background.png");
   background-repeat: no-repeat;
   background-size: cover;
 }

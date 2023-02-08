@@ -1,8 +1,15 @@
-import { Button } from "@mui/material";
+import { Box, Button, Paper } from "@mui/material";
 import { Component, CSSProperties, ReactNode } from "react";
 import { Rnd } from "react-rnd";
 
-export type WindowType = "dir" | "txt" | "msg" | "pic" | "mov" | "null";
+export type WindowType =
+  | "dir"
+  | "txt"
+  | "msg"
+  | "pic"
+  | "mov"
+  | "prompt"
+  | "null";
 
 interface BaseWindowFieldProps<T = any> {
   id: string;
@@ -79,6 +86,8 @@ export default class BaseWindow extends Component<
             ? document.body.clientHeight
             : this.state.height,
         }}
+        minWidth={200}
+        minHeight={200}
         position={{
           x: this.state.full ? 0 : this.state.x,
           y: this.state.full ? 0 : this.state.y,
@@ -95,52 +104,63 @@ export default class BaseWindow extends Component<
           });
         }}
         style={{
-          background: "red",
           position: "absolute",
           top: 0,
           left: 0,
           visibility: this.props.active ? "visible" : "hidden",
           border: "1px solid black",
-          zIndex: this.props.hasFocus() ? 1000 : 999,
+          zIndex: this.props.hasFocus() ? 1002 : 999,
+          background: "white",
         }}
       >
-        <div
+        <Box
           style={{
-            display: "grid",
-            gridTemplateColumns: "auto 100px",
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
           <div
-            className="handle"
             style={{
-              overflow: "hidden",
-              whiteSpace: "nowrap",
-              textOverflow: "ellipsis",
-              cursor: "pointer",
+              display: "grid",
+              gridTemplateColumns: "auto 100px",
             }}
           >
-            {this.props.name}
-          </div>
-          <div
-            style={{
-              display: "flex",
-            }}
-          >
-            <button
-              style={buttonStyle}
-              onClick={() => this.props.setContext("active", false)}
+            <div
+              className="handle"
+              style={{
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+                cursor: "pointer",
+                padding: "0.3em 0.8em",
+              }}
             >
-              _
-            </button>
-            <button style={buttonStyle} onClick={this.toggleFullScreen}>
-              ㅁ
-            </button>
-            <button style={buttonStyle} onClick={this.props.destroy}>
-              X
-            </button>
+              {this.props.name}
+            </div>
+            <div
+              style={{
+                display: "flex",
+                padding: "0.3em 0.8em",
+              }}
+            >
+              <button
+                style={buttonStyle}
+                onClick={() => this.props.setContext("active", false)}
+              >
+                _
+              </button>
+              <button style={buttonStyle} onClick={this.toggleFullScreen}>
+                ㅁ
+              </button>
+              <button style={buttonStyle} onClick={this.props.destroy}>
+                X
+              </button>
+            </div>
           </div>
-        </div>
-        {this.props.children}
+          <div style={{ flex: 1 }}>{this.props.children}</div>
+        </Box>
       </Rnd>
     );
   }

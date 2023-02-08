@@ -21,3 +21,23 @@ export const normalize = (area: AreaType) => {
     return makeArea(area.end.y, area.end.x, -w, -h);
   }
 };
+
+export const normalizeAndArea = (area: AreaType) => {
+  const normal = normalize(area);
+  return {
+    start: {
+      x: normal.left,
+      y: normal.top,
+    },
+    end: {
+      x: normal.left + normal.width,
+      y: normal.top + normal.height,
+    },
+  } as AreaType;
+};
+
+export const isIn = (area: AreaType, y: number, x: number) => {
+  return (
+    area.start.y <= y && y <= area.end.y && area.start.x <= x && x <= area.end.x
+  );
+};
