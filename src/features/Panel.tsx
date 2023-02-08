@@ -13,6 +13,7 @@ type PanelProps = {
   entry: IEntry[];
   isRow?: boolean;
   onMouseDown?(): void;
+  onDropEntry(e: DragEvent): void;
   desktop?: boolean;
 };
 
@@ -21,6 +22,7 @@ const Panel = ({
   entry,
   isRow,
   onMouseDown = () => {},
+  onDropEntry,
   desktop = false,
 }: PanelProps) => {
   const [area, setArea] = useState<AreaType>(INITIAL_AREA);
@@ -48,7 +50,7 @@ const Panel = ({
       }}
     >
       <AreaLayer area={area} setArea={setArea}>
-        <DragLayer onDropEntry={(e) => console.log(e)}>
+        <DragLayer onDropEntry={onDropEntry}>
           <div
             style={{
               position: "absolute",
