@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Entry from "../components/Entry";
+import ImageIcon from "../components/Icon/ImageIcon";
 import { INITIAL_AREA } from "../constants";
 import { AreaType } from "../types/area";
 import { Entry } from "../types/entry";
@@ -24,6 +26,11 @@ const Panel = ({ focused, entrys }: PanelProps) => {
       }}
     >
       <DragLayer onDropEntry={(e) => console.log(e)}>
+        <div>
+          {entrys.map((en) => (
+            <Entr>{en.name}</Entr>
+          ))}
+        </div>
         <AreaLayer area={area} setArea={setArea} />
       </DragLayer>
     </div>

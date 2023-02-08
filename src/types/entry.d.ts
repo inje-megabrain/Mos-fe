@@ -1,4 +1,4 @@
-export interface Entry {
+export interface IEntry {
   path: string;
   name: string;
   ext: string;
