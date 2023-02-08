@@ -2,6 +2,8 @@ import React, { useRef, useEffect, useState } from "react";
 import Styled from "styled-components";
 import { AreaType } from "../types/area";
 import { IEntry } from "../types/entry";
+import { isIn, normalize, normalizeAndArea } from "../utils/area";
+import Icon from "./Icon";
 import FolderIcon from "./Icon/FolderIcon";
 
 type EntryProps = {
@@ -25,35 +27,43 @@ const Entry = ({ area, data }: EntryProps) => {
   const [isSelected, setIsSelected] = useState(false);
 
   const element = useRef<HTMLDivElement>(null);
-  let top: any, x: any, y: any, bottom: any;
 
   useEffect(() => {
     if (element.current) {
-      bottom = element.current.getBoundingClientRect().bottom;
-      top = element.current.getBoundingClientRect().top;
-      x = element.current.getBoundingClientRect().x;
-      y = element.current.getBoundingClientRect().y;
+      // bottom = element.current.getBoundingClientRect().bottom;
+      // top = element.current.getBoundingClientRect().top;
+      // x = element.current.getBoundingClientRect().x;
+      // y = element.current.getBoundingClientRect().y;
 
+      const normal = normalizeAndArea(area);
       const size = element.current.getBoundingClientRect();
-      console.log("size : ", size);
+
+      setIsSelected(
+        size.x < normal.end.x &&
+          size.x + size.width > normal.start.x &&
+          size.y < normal.end.y &&
+          size.height + size.y > normal.start.y
+      );
+
       //console.log("width-top : ", width - top);
     }
-  }, [element.current]);
-
-  const sizeCheck = () => {
-    const h = area.end.y - area.start.y; //height
-    const w = area.end.x - area.start.x; //width
-    console.log("H :", h, "W : ", w);
-  };
+  }, [area]);
 
   return (
-    <>
-      <div className="entry" ref={element} draggable>
-        <FolderIcon />
-      </div>
-      {console.log("AreaStart : ", area.start, "AreaEnd", area.end)}
-      {sizeCheck()}
-    </>
+    <div
+      className="entry"
+      ref={element}
+      draggable
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        background: isSelected ? "rgba(0, 0, 255, 0.5)" : "transparent",
+      }}
+    >
+      <Icon width={60} height={60} type={"dir"} />
+      <span>{data.name}</span>
+    </div>
   );
 };
 
