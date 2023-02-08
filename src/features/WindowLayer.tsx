@@ -13,11 +13,15 @@ export default function WindowLayer() {
           justifyContent: "flex-start",
           position: "fixed",
           left: 0,
+          background: "gray",
+          width: "100%",
           bottom: 0,
         }}
       >
         <>
-          <Button onClick={() => createWindow("null", null)}>+</Button>
+          <Button onClick={() => createWindow("dir", { path: "/hello" })}>
+            +
+          </Button>
           {windows.map((ctx) => (
             <button
               key={ctx.id}
