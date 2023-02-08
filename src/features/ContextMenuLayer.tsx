@@ -40,6 +40,9 @@ const ContextMenuLayer = () => {
       case "addFile":
         console.log(event, props);
         break;
+      case "shareFile":
+        // 공유 메모리 생성 api 호출
+        break;
       //etc...
     }
   };
@@ -55,14 +58,19 @@ const ContextMenuLayer = () => {
   return (
     <Menu id={MENU_ID} style={{ zIndex: 1002 }}>
       {getSelection().length === 0 ? (
-        <Submenu label="추가">
-          <Item id="addFolder" onClick={handleItemClick}>
-            폴더
+        <>
+          <Submenu label="추가">
+            <Item id="addFolder" onClick={handleItemClick}>
+              폴더
+            </Item>
+            <Item id="addFile" onClick={handleItemClick}>
+              파일
+            </Item>
+          </Submenu>
+          <Item id="shareFile" onClick={handleItemClick}>
+            공유하기
           </Item>
-          <Item id="addFile" onClick={handleItemClick}>
-            파일
-          </Item>
-        </Submenu>
+        </>
       ) : (
         <>
           <Item id="delete" onClick={handleItemClick}>
