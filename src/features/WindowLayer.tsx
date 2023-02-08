@@ -14,7 +14,7 @@ export default function WindowLayer() {
           justifyContent: "flex-start",
           gap: "4px",
           alignItems: "center",
-          position: "fixed",
+          position: "sticky",
           left: 0,
           background: "rgba(255,255,255, 0.3)",
           boxShadow: "0px -5px 5px rgba(255,255,255, 0.2) blur",
@@ -24,7 +24,12 @@ export default function WindowLayer() {
         }}
       >
         <>
-          <Button onClick={() => createWindow("dir", { path: "/hello/h1/h2" })}>
+          <Button
+            onClick={() => {
+              console.log("hello");
+              createWindow("dir", { path: "/hello/h1/h2" });
+            }}
+          >
             +
           </Button>
           {windows.map((ctx) => (

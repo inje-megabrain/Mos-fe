@@ -7,7 +7,6 @@ const OS = () => {
     <>
       <ContextMenuLayer />
       <Desktop />
-      <WindowLayer />
     </>
   );
 };

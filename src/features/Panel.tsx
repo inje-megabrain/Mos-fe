@@ -13,6 +13,7 @@ type PanelProps = {
   entry: IEntry[];
   isRow?: boolean;
   onMouseDown?(): void;
+  desktop?: boolean;
 };
 
 const Panel = ({
@@ -20,6 +21,7 @@ const Panel = ({
   entry,
   isRow,
   onMouseDown = () => {},
+  desktop = false,
 }: PanelProps) => {
   const [area, setArea] = useState<AreaType>(INITIAL_AREA);
   const { setItems, items } = useItemManager();
@@ -45,24 +47,24 @@ const Panel = ({
         height: "100%",
       }}
     >
-      <DragLayer onDropEntry={(e) => console.log(e)}>
-        <AreaLayer area={area} setArea={setArea}>
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "5px",
-            }}
-          >
+      <AreaLayer area={area} setArea={setArea}>
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "5px",
+          }}
+        >
+          <DragLayer onDropEntry={(e) => console.log(e)}>
             {entry.map((en) => (
               <Entry key={en.id} area={area} data={en} />
             ))}
-          </div>
-        </AreaLayer>
-      </DragLayer>
+          </DragLayer>
+        </div>
+      </AreaLayer>
     </div>
   );
 };

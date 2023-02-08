@@ -5,23 +5,28 @@ import useFetchDir from "../query/useFetchDir";
 import { IEntry } from "../types/entry";
 import { transformEntry } from "../utils/entry";
 import Panel from "./Panel";
+import WindowLayer from "./WindowLayer";
 
 const Desktop = () => {
   const [focusId, setFocus] = useRecoilState(focusAtom);
 
-  const { refetch, data, isSuccess } = useFetchDir("/");
   const [entry, setEntry] = useState<IEntry[]>([]);
-
-  useEffect(() => {
-    if (isSuccess) setEntry(transformEntry(data, "/"));
-  }, [data]);
+  const { refetch, data, isSuccess } = useFetchDir("/", (data) => {
+    setEntry(transformEntry(data, "/"));
+  });
 
   return (
-    <Panel
-      entry={entry}
-      focused={focusId === "Desktop"}
-      onMouseDown={() => setFocus("Desktop")}
-    />
+    <>
+      <Panel
+        desktop
+        entry={entry}
+        focused={focusId === "Desktop"}
+        onMouseDown={() => {
+          setFocus("Desktop");
+        }}
+      />
+      <WindowLayer />
+    </>
   );
 };
 
