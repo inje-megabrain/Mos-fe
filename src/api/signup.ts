@@ -1,7 +1,17 @@
 import client from "./client";
-import { IUser } from "../types/user";
+import { IToken, IUser } from "../types/user";
 
-export async function signup() {
-  const response = await client.post<IUser>("/signin");
-  return response.data;
+type JoinProps = {
+  id: string;
+  pw: string;
+};
+
+export async function signup({ id, pw }: JoinProps) {
+  const response = await client
+    .post<IToken>("/join", { id, pw })
+    .then((res) => {
+      console.log(res.data);
+      return res.data;
+    });
+  return response;
 }

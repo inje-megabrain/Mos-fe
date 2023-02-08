@@ -1,7 +1,6 @@
-import React from "react";
 import Styled from "styled-components";
-import { login } from "../api/login";
-import { useQuery } from "react-query";
+import { useState, useCallback } from "react";
+import useLogin from "../query/useLogin";
 
 const LoginStyle = Styled.div`
   display: flex;
@@ -15,12 +14,32 @@ const LoginStyle = Styled.div`
 `;
 
 const Login = () => {
-  const { data } = useQuery("login", login);
+  const [id, setId] = useState("");
+  const [pw, setPw] = useState("");
+
+  const { mutate: login } = useLogin();
+
+  const onChangeId = useCallback((e: any) => {
+    setId(e.target.value);
+  }, []);
+
+  const onChangePw = useCallback((e: any) => {
+    setPw(e.target.value);
+  }, []);
+
+  const onClickBtn = () => {
+    login({ id: id, pw: pw });
+  };
 
   return (
     <LoginStyle>
-      <div className="title">
-        Login {data?.id} {data?.password}
+      <div className="title">Login</div>
+      <div>
+        <input placeholder="id" value={id} onChange={onChangeId} />
+        <input placeholder="password" value={pw} onChange={onChangePw} />
+      </div>
+      <div>
+        <button onClick={onClickBtn}>로그인</button>
       </div>
     </LoginStyle>
   );
