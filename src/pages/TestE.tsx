@@ -1,6 +1,7 @@
 import React from "react";
 import Styled from "styled-components";
-import Entry from "../components/Entry";
+import EntryCom from "../components/Entry";
+import { IEntry } from "../types/entry";
 
 const TestStyled = Styled.div`
   display: flex;
@@ -9,19 +10,22 @@ const TestStyled = Styled.div`
 
 `;
 
-const entryProps = {
-  uuid: "1",
-  name: "testDirEntry",
-  isDir: true,
-  ext: "txt",
-  path: "Desktop",
+export const entryProps = {
+  area: { start: { x: 400, y: 400 }, end: { x: 600, y: 600 } },
+  entrydata: {
+    id: "1",
+    name: "EntryTest",
+    isDir: true,
+    ext: "txt",
+    path: "desktop/entry.txt",
+  },
 };
 
 const Test = () => {
   return (
     <TestStyled>
       <div>EntryTest</div>
-      <Entry {...entryProps} />
+      <EntryCom {...entryProps} />
     </TestStyled>
   );
 };
