@@ -1,11 +1,14 @@
 import client from "./client";
 
-export async function cerateDir({ dir }: { dir: string }) {
-  return new Promise((res, rej) => {
-    client.post("/makeDir?", { dir }).then((v) => {
-      if (v.data.ok) {
-        res(v.data);
-      }
+/**
+ *
+ * @param {string} dir
+ */
+
+export async function createDir({ dir }: { dir: string }) {
+  return new Promise((res) => {
+    client.post("/makeDir", null, { params: { dir } }).then((v) => {
+      console.log(v);
     });
   });
 }
