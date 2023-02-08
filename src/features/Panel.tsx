@@ -28,7 +28,7 @@ const Panel = ({ focused, entrys }: PanelProps) => {
       <DragLayer onDropEntry={(e) => console.log(e)}>
         <div>
           {entrys.map((en) => (
-            <Entr>{en.name}</Entr>
+            <Entry key={en.id} area={area} data={en} />
           ))}
         </div>
         <AreaLayer area={area} setArea={setArea} />
