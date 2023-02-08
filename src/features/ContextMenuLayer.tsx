@@ -16,7 +16,7 @@ const MENU_ID = "menu";
 
 const ContextMenuLayer = () => {
   const { getSelection } = useItemManager();
-  const { getFocusedWindow } = useWindowManager();
+  const { getFocusedWindow, createWindow } = useWindowManager();
   const { mutate: createDir } = useCreateDir();
   const { show } = useContextMenu({
     id: MENU_ID,
@@ -74,6 +74,7 @@ const ContextMenuLayer = () => {
         </>
       )}
       <Separator />
+      {getSelection().length === 1 && <Item id="changeName">이름 변경</Item>}
     </Menu>
   );
 };
