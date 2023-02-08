@@ -6,7 +6,17 @@ type PanelProps = {
 };
 
 const Panel = ({}: PanelProps) => {
-  return <></>;
+  return (
+    <div
+      style={{
+        position: "relative",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+      }}
+    ></div>
+  );
 };
 
 export default Panel;
