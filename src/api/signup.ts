@@ -1,7 +1,7 @@
 import client from "./client";
 import { IUser } from "../types/user";
 
-export async function login() {
-  const response = await client.post<IUser>("/login");
+export async function signup() {
+  const response = await client.post<IUser>("/signin");
   return response.data;
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import Styled from "styled-components";
 
 const SignUpStyle = Styled.div`
@@ -16,6 +16,13 @@ const SignUp = () => {
   return (
     <SignUpStyle>
       <div className="title">SignUp</div>
+      <div>
+        <input placeholder="id" />
+        <input placeholder="password" />
+      </div>
+      <div>
+        <button>회원가입</button>
+      </div>
     </SignUpStyle>
   );
 };
