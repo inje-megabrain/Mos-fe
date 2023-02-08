@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Styled from "styled-components";
 import { AreaType } from "../types/area";
 import { IEntry } from "../types/entry";
@@ -21,7 +21,8 @@ const EntryStyle = Styled.div`
 
 //Props : area, EntryDataType
 const Entry = ({ area, entrydata }: EntryProps) => {
-  const loc = document.getElementById("loc");
+  const [isSelected, setIsSelected] = useState(false);
+
   const element = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

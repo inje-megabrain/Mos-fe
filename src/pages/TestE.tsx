@@ -10,7 +10,7 @@ const TestStyled = Styled.div`
 
 `;
 
-const entryProps = {
+export const entryProps = {
   area: { start: { x: 400, y: 400 }, end: { x: 600, y: 600 } },
   entrydata: {
     id: "1",
