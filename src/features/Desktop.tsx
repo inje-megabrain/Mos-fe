@@ -1,14 +1,12 @@
 import { useRecoilValue } from "recoil";
 import focusAtom from "../atoms/focusAtom";
-import { entryProps } from "../pages/TestE";
+import { entrydata } from "../utils/entry";
 import Panel from "./Panel";
 
 const Desktop = () => {
   const focusId = useRecoilValue(focusAtom);
 
-  return (
-    <Panel entrys={[entryProps.entrydata]} focused={focusId === "Desktop"} />
-  );
+  return <Panel entrys={entrydata} focused={focusId === "Desktop"} />;
 };
 
 export default Desktop;
