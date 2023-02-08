@@ -13,7 +13,7 @@ import client from "./client";
 
 export async function fetchDir({ dir }: { dir: string }) {
   const response = await client.get(`/getDir?dir=${dir}`);
-  return response;
+  return response.data.result;
 
   // return new Promise((res) => {
   //   client.get<Dir>("/getDir").then((v) => {
