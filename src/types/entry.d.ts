@@ -1,7 +1,10 @@
+import { WindowType } from "../components/Window/BaseWindow";
+
 export interface IEntry {
   path: string;
+  parent: string;
   name: string;
-  ext: string;
+  ext: WindowType;
   isDir: boolean;
   id: string;
 }

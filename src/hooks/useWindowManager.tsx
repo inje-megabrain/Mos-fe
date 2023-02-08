@@ -49,8 +49,8 @@ export default function useWindowManager() {
         },
       };
     },
-    createWindow<T>(type: WindowType, payload: T) {
-      const win = makeWindow(v4(), type, payload);
+    createWindow<T>(type: WindowType, payload: T, name: string = "") {
+      const win = makeWindow(v4(), type, payload, name);
       setWindows((prev) => {
         const nWindows = [...prev];
         nWindows.push(win);

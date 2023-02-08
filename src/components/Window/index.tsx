@@ -3,7 +3,7 @@ import DirectoryWindow from "./DirectoryWindow";
 import PictureWindow from "./PictureWindow";
 import VideoWindow from "./VideoWindow";
 import MessageWindow from "./MessageWindow";
-import PropmtWindow from "./PromptWindow";
+import PromptWindow from "./PromptWindow";
 
 const Window = (props: WindowHandle) => {
   switch (props.type) {
@@ -16,7 +16,7 @@ const Window = (props: WindowHandle) => {
     case "msg":
       return <MessageWindow {...props} />;
     case "prompt":
-      return <PropmtWindow {...props} />;
+      return <PromptWindow {...props} />;
     default:
       return <BaseWindow {...props}>Empty Window</BaseWindow>;
   }
@@ -24,11 +24,16 @@ const Window = (props: WindowHandle) => {
 
 export default Window;
 
-export const makeWindow = (id: string, type: string, payload: any) => {
+export const makeWindow = (
+  id: string,
+  type: string,
+  payload: any,
+  name: string
+) => {
   return {
     type,
     id,
-    name: "",
+    name,
     payload,
     active: true,
   } as WindowContext;

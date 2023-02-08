@@ -7,9 +7,8 @@ export type PromptPayload = {
   onConfirm(text: string): void;
 };
 
-const PropmtWindow = (props: WindowHandle<PromptPayload>) => {
+const PromptWindow = (props: WindowHandle<PromptPayload>) => {
   const [value, setValue] = useState(props.payload.placeholder || "");
-  console.log(props.payload.placeholder);
 
   const onTextChange = useCallback((e: any) => {
     setValue(e.target.value);
@@ -39,7 +38,10 @@ const PropmtWindow = (props: WindowHandle<PromptPayload>) => {
           <button
             style={{ marginTop: "20px", display: "flex" }}
             onClick={() => {
-              props.payload.onConfirm(value);
+              if (value && value.length > 0) {
+                props.payload.onConfirm(value);
+                props.destroy();
+              }
             }}
           >
             EDIT
@@ -50,4 +52,4 @@ const PropmtWindow = (props: WindowHandle<PromptPayload>) => {
   );
 };
 
-export default PropmtWindow;
+export default PromptWindow;

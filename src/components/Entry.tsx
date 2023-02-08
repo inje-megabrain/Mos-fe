@@ -5,8 +5,10 @@ import useWindowManager from "../hooks/useWindowManager";
 import { AreaType } from "../types/area";
 import { IEntry } from "../types/entry";
 import { isIn, normalize, normalizeAndArea } from "../utils/area";
+import { transformExtIntoType } from "../utils/ext";
 import Icon from "./Icon";
 import FolderIcon from "./Icon/FolderIcon";
+import { PicturePayload } from "./Window/PictureWindow";
 
 type EntryProps = {
   area: AreaType;
@@ -52,6 +54,12 @@ const Entry = ({ area, data }: EntryProps) => {
 
   const onDoubleClick = () => {
     if (data.isDir) createWindow("dir", { path: data.path });
+
+    if (data.ext === "pic")
+      createWindow<PicturePayload>("pic", {
+        fileName: data.name,
+        folder: data.parent,
+      });
   };
 
   return (
@@ -71,7 +79,7 @@ const Entry = ({ area, data }: EntryProps) => {
         background: isSelected ? "rgba(0, 120, 244, 0.5)" : "transparent",
       }}
     >
-      <Icon width={60} height={60} type={"dir"} />
+      <Icon width={60} height={60} type={data.ext} />
       <span>{data.name}</span>
     </div>
   );

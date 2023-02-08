@@ -1,9 +1,9 @@
 import client from "./client";
 
-export default function fetchImage(url = "") {
+export default function fetchImage(folder: string, fileName: string) {
   return new Promise<Blob>((resolve, reject) => {
     client
-      .get(`/api/image?path=${url}`, {
+      .get(`/image?dir=${folder}&imagename=${fileName}`, {
         responseType: "blob",
       })
       .then((response) => {
