@@ -30,7 +30,7 @@ const DirectoryWindow = (props: WindowHandle<DirectoryPayload>) => {
   return (
     <BaseWindow {...props}>
       <DirectoryHeader path={props.payload.path} setPath={setPath} />
-      <Panel focused={props.hasFocus()} entrys={[]} />
+      <Panel focused={props.hasFocus()} entry={[]} />
     </BaseWindow>
   );
 };

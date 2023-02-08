@@ -1,12 +1,26 @@
-import { useRecoilValue } from "recoil";
+import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 import focusAtom from "../atoms/focusAtom";
-import { entrydata } from "../utils/entry";
+import { IEntry } from "../types/entry";
+import { entrydata, transformEntry } from "../utils/entry";
 import Panel from "./Panel";
 
 const Desktop = () => {
-  const focusId = useRecoilValue(focusAtom);
+  const [focusId, setFocus] = useRecoilState(focusAtom);
 
-  return <Panel entrys={entrydata} focused={focusId === "Desktop"} />;
+  const [entry, setEntry] = useState<IEntry[]>([]);
+
+  useEffect(() => {
+    setEntry(transformEntry(entrydata, "desktop"));
+  }, []);
+
+  return (
+    <Panel
+      entry={entry}
+      focused={focusId === "Desktop"}
+      onMouseDown={() => setFocus("Desktop")}
+    />
+  );
 };
 
 export default Desktop;

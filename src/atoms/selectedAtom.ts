@@ -1,10 +1,18 @@
 import { atom } from "recoil";
+import { IEntry } from "../types/entry";
 
-const selectedAtom = atom({
-  key: "uuid",
-  // data: {name, isDir, ext, path},
-  // isSelcted: boolean
-  default: null,
+type Item = {
+  selected: boolean;
+  entry: IEntry;
+};
+
+type SelectSet = {
+  [key: string]: Item;
+};
+
+const selectedAtom = atom<SelectSet>({
+  key: "selectedAtom",
+  default: {},
 });
 
 export default selectedAtom;

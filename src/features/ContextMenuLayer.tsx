@@ -7,10 +7,12 @@ import {
   useContextMenu,
 } from "react-contexify";
 import "react-contexify/ReactContexify.css";
+import useItemManager from "../hooks/useItemManager";
 
 const MENU_ID = "menu";
 
 const ContextMenuLayer = () => {
+  const { getSelection } = useItemManager();
   const { show } = useContextMenu({
     id: MENU_ID,
   });
@@ -45,9 +47,12 @@ const ContextMenuLayer = () => {
   }, [handleContextMenu]);
 
   return (
-    <Menu id={MENU_ID}>
+    <Menu id={MENU_ID} style={{ zIndex: 1001 }}>
+      <Item id="info" onClick={handleItemClick}>
+        선택된 {getSelection().length} 아이템
+      </Item>
       <Item id="copy" onClick={handleItemClick}>
-        Copy
+        복사
       </Item>
       <Item id="cut" onClick={handleItemClick}>
         Cut

@@ -2,27 +2,43 @@ import {
   Dispatch,
   DragEvent,
   MouseEvent,
+  ReactNode,
+  RefObject,
   SetStateAction,
+  useEffect,
   useRef,
   useState,
 } from "react";
 import { AreaType } from "../types/area";
 import { normalize } from "../utils/area";
 
+export type Pos = { x: number; y: number };
+
 type AreaLayerProps = {
   area: AreaType;
   setArea: Dispatch<SetStateAction<AreaType>>;
+  children: ReactNode;
 };
 
-function getXY({ nativeEvent }: MouseEvent) {
+function getXY({ nativeEvent }: MouseEvent, base: Pos) {
   return {
-    x: nativeEvent.offsetX,
-    y: nativeEvent.offsetY,
+    x: nativeEvent.x - base.x,
+    y: nativeEvent.y - base.y,
   };
 }
 
-const AreaLayer = ({ area, setArea }: AreaLayerProps) => {
+function getBase(ref: RefObject<HTMLDivElement>) {
+  const size = ref.current?.getBoundingClientRect();
+
+  return {
+    x: size ? size.x : 0,
+    y: size ? size.y : 0,
+  } as Pos;
+}
+
+const AreaLayer = ({ area, setArea, children }: AreaLayerProps) => {
   const clickRef = useRef(false);
+  const baseRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
 
   const reset = () => {
@@ -34,12 +50,13 @@ const AreaLayer = ({ area, setArea }: AreaLayerProps) => {
     if (e.button !== 0) return;
 
     clickRef.current = true;
-    setArea({ start: getXY(e), end: getXY(e) });
+    const base = getBase(baseRef);
+    setArea({ start: getXY(e, base), end: getXY(e, base) });
   };
 
   const onMouseMove = (e: MouseEvent) => {
     if (clickRef.current) {
-      setArea((prev) => ({ ...prev, end: getXY(e) }));
+      setArea((prev) => ({ ...prev, end: getXY(e, getBase(baseRef)) }));
       if (!isDragging) setIsDragging(true);
     }
   };
@@ -48,10 +65,13 @@ const AreaLayer = ({ area, setArea }: AreaLayerProps) => {
     reset();
   };
 
-  const onDragStart = (e: DragEvent) => {};
+  const onDragStart = (e: DragEvent) => {
+    reset();
+  };
 
   return (
     <div
+      ref={baseRef}
       onDragStart={onDragStart}
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
@@ -64,6 +84,7 @@ const AreaLayer = ({ area, setArea }: AreaLayerProps) => {
         height: "100%",
       }}
     >
+      {children}
       {isDragging && (
         <div
           style={{

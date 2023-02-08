@@ -1,17 +1,16 @@
+import { IEntry } from "../types/entry";
+import { v4 } from "uuid";
+
 export const entrydata = [
   {
-    id: "1",
     name: "EntryTest",
     isDir: true,
     ext: "txt",
-    path: "desktop/entry.txt",
   },
   {
-    id: "2",
     name: "EntryTest",
     isDir: true,
     ext: "txt",
-    path: "desktop/entry.txt",
   },
   // {
   //   id: "3",
@@ -140,3 +139,14 @@ export const entrydata = [
   //   path: "desktop/entry.txt",
   // },
 ];
+
+export const transformEntry = (
+  rawEntry: Omit<IEntry, "id" | "path">[],
+  currentPath: string
+) => {
+  return rawEntry.map((en) => ({
+    ...en,
+    path: `${currentPath}/${en.name}`,
+    id: v4(),
+  }));
+};

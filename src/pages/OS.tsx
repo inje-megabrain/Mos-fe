@@ -5,9 +5,9 @@ import WindowLayer from "../features/WindowLayer";
 const OS = () => {
   return (
     <>
+      <ContextMenuLayer />
       <Desktop />
       <WindowLayer />
-      <ContextMenuLayer />
     </>
   );
 };

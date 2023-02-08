@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import Styled from "styled-components";
+import useItemManager from "../hooks/useItemManager";
+import useWindowManager from "../hooks/useWindowManager";
 import { AreaType } from "../types/area";
 import { IEntry } from "../types/entry";
 import { isIn, normalize, normalizeAndArea } from "../utils/area";
@@ -25,16 +27,13 @@ type EntryProps = {
 //Props : area, EntryDataType
 const Entry = ({ area, data }: EntryProps) => {
   const [isSelected, setIsSelected] = useState(false);
+  const { setSelectedById } = useItemManager();
+  const { createWindow } = useWindowManager();
 
   const element = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (element.current) {
-      // bottom = element.current.getBoundingClientRect().bottom;
-      // top = element.current.getBoundingClientRect().top;
-      // x = element.current.getBoundingClientRect().x;
-      // y = element.current.getBoundingClientRect().y;
-
       const normal = normalizeAndArea(area);
       const size = element.current.getBoundingClientRect();
 
@@ -44,16 +43,26 @@ const Entry = ({ area, data }: EntryProps) => {
           size.y < normal.end.y &&
           size.height + size.y > normal.start.y
       );
-
-      //console.log("width-top : ", width - top);
     }
   }, [area]);
 
+  useEffect(() => {
+    setSelectedById(data.id, isSelected);
+  }, [isSelected]);
+
+  const onDoubleClick = () => {
+    if (data.isDir) createWindow("dir", { path: data.path });
+  };
+
   return (
     <div
-      className="entry"
-      ref={element}
       draggable
+      // onMouseMove={(e) => {
+      //   e.stopPropagation();
+      // }}
+      className="entry"
+      onDoubleClick={onDoubleClick}
+      ref={element}
       style={{
         display: "flex",
         flexDirection: "column",
