@@ -48,22 +48,22 @@ const Panel = ({
       }}
     >
       <AreaLayer area={area} setArea={setArea}>
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "5px",
-          }}
-        >
-          <DragLayer onDropEntry={(e) => console.log(e)}>
+        <DragLayer onDropEntry={(e) => console.log(e)}>
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "5px",
+            }}
+          >
             {entry.map((en) => (
               <Entry key={en.id} area={area} data={en} />
             ))}
-          </DragLayer>
-        </div>
+          </div>
+        </DragLayer>
       </AreaLayer>
     </div>
   );

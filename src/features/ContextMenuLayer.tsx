@@ -8,11 +8,16 @@ import {
 } from "react-contexify";
 import "react-contexify/ReactContexify.css";
 import useItemManager from "../hooks/useItemManager";
+import useWindowManager from "../hooks/useWindowManager";
+import useCreateDir from "../query/useCreateDir";
+import { makePath } from "../utils/path";
 
 const MENU_ID = "menu";
 
 const ContextMenuLayer = () => {
   const { getSelection } = useItemManager();
+  const { getFocusedWindow } = useWindowManager();
+  const { mutate: createDir } = useCreateDir();
   const { show } = useContextMenu({
     id: MENU_ID,
   });
@@ -27,11 +32,12 @@ const ContextMenuLayer = () => {
   }
 
   const handleItemClick = ({ id, event, props }: any) => {
+    const currentWindow = getFocusedWindow();
     switch (id) {
-      case "copy":
-        console.log(event, props);
+      case "addFolder":
+        createDir({ dir: makePath(currentWindow?.payload.path, "fff") });
         break;
-      case "cut":
+      case "addFile":
         console.log(event, props);
         break;
       //etc...
@@ -47,27 +53,27 @@ const ContextMenuLayer = () => {
   }, [handleContextMenu]);
 
   return (
-    <Menu id={MENU_ID} style={{ zIndex: 1001 }}>
-      <Item id="info" onClick={handleItemClick}>
-        선택된 {getSelection().length} 아이템
-      </Item>
-      <Item id="copy" onClick={handleItemClick}>
-        복사
-      </Item>
-      <Item id="cut" onClick={handleItemClick}>
-        Cut
-      </Item>
+    <Menu id={MENU_ID} style={{ zIndex: 1002 }}>
+      {getSelection().length === 0 ? (
+        <Submenu label="추가">
+          <Item id="addFolder" onClick={handleItemClick}>
+            폴더
+          </Item>
+          <Item id="addFile" onClick={handleItemClick}>
+            파일
+          </Item>
+        </Submenu>
+      ) : (
+        <>
+          <Item id="delete" onClick={handleItemClick}>
+            삭제
+          </Item>
+          <Item id="copy" onClick={handleItemClick}>
+            복사
+          </Item>
+        </>
+      )}
       <Separator />
-      <Item disabled>Disabled</Item>
-      <Separator />
-      <Submenu label="Foobar">
-        <Item id="reload" onClick={handleItemClick}>
-          Reload
-        </Item>
-        <Item id="something" onClick={handleItemClick}>
-          Do something else
-        </Item>
-      </Submenu>
     </Menu>
   );
 };

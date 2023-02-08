@@ -58,5 +58,15 @@ export default function useWindowManager() {
       });
       setFocus(win.id);
     },
+    getFocusedWindow() {
+      if (focusId === "Desktop")
+        return {
+          id: "Desktop",
+          type: "dir",
+          payload: { path: "/" },
+        };
+
+      return windows.find((win) => win.id === focusId);
+    },
   };
 }

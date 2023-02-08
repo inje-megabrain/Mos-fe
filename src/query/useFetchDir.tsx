@@ -6,7 +6,7 @@ export default function useFetchDir(
   dir: string,
   onSuccess: (data: IEntry[]) => void
 ) {
-  return useQuery(["Dir"], () => fetchDir({ dir }), {
+  return useQuery(["Dir", dir], () => fetchDir({ dir }), {
     onSuccess(data) {
       onSuccess(data);
     },

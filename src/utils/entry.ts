@@ -144,10 +144,9 @@ export const transformEntry = (
   rawEntry: Omit<IEntry, "id" | "path">[],
   currentPath: string
 ) => {
-  console.log(rawEntry);
   return rawEntry.map((en) => ({
     ...en,
-    path: `${currentPath}/${en.name}`,
+    path: `${currentPath === "/" ? "" : "/"}/${en.name}`,
     id: v4(),
   }));
 };

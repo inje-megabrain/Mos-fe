@@ -5,9 +5,10 @@ import { dividePath } from "../../utils/path";
 type DirectoryHeaderProp = {
   path: string;
   setPath(path: string): void;
+  refresh(): void;
 };
 
-const DirectoryHeader = ({ path, setPath }: DirectoryHeaderProp) => {
+const DirectoryHeader = ({ path, setPath, refresh }: DirectoryHeaderProp) => {
   return (
     <div
       style={{
@@ -42,7 +43,7 @@ const DirectoryHeader = ({ path, setPath }: DirectoryHeaderProp) => {
           </Fragment>
         ))}
       </div>
-      <div>refresh</div>
+      <button onClick={refresh}>refresh</button>
     </div>
   );
 };
