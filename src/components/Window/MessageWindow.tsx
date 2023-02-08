@@ -1,5 +1,4 @@
 import BaseWindow, { WindowHandle } from "./BaseWindow";
-import { useEffect, useState } from "react";
 
 export type MessagePayload = {
   message: string;
