@@ -46,4 +46,11 @@ export const setRefreshToken = (token: string) => {
   }
 };
 
+// export const setAuthHeader = (token: IToken) => {
+//   setAccessToken(token.accessToken);
+//   console.log(token.accessToken);
+//   setRefreshToken(token.refreshToken);
+//   console.log(token.refreshToken);
+// };
+
 export default client;

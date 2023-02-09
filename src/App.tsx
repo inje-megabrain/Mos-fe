@@ -4,11 +4,18 @@ import OS from "./pages/OS";
 import "./App.css";
 import SignUp from "./pages/SignUp";
 import { useEffect } from "react";
+import { setAccessToken, setRefreshToken } from "./api/client";
 
 function App() {
+  const accesstoken = localStorage.getItem("accessToken");
+  const refreshtoken = localStorage.getItem("refreshToken");
   useEffect(() => {
-    console.log(localStorage.getItem("accessToken"));
-    console.log(localStorage.getItem("refreshToken"));
+    if (accesstoken != null) {
+      setAccessToken(accesstoken);
+    }
+    if (refreshtoken != null) {
+      setRefreshToken(refreshtoken);
+    }
   }, []);
 
   return (

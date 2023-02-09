@@ -4,6 +4,6 @@ export interface IUser {
 }
 
 export interface IToken {
-  access: string;
-  refresh: string;
+  accessToken: string;
+  refreshToken: string;
 }
