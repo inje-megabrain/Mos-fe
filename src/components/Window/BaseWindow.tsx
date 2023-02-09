@@ -1,5 +1,11 @@
 import { Box, Button, Paper } from "@mui/material";
-import { Component, CSSProperties, ReactNode } from "react";
+import {
+  Component,
+  createRef,
+  CSSProperties,
+  ReactNode,
+  RefObject,
+} from "react";
 import { Rnd } from "react-rnd";
 
 export type WindowType =
@@ -85,11 +91,27 @@ export default class BaseWindow extends Component<
   BaseWindowProps,
   WindowState
 > {
+  contentRef: RefObject<HTMLDivElement>;
   constructor(props: Readonly<BaseWindowProps<any>>) {
     super(props);
     this.state = {
       ...INITIAL_STATE,
     } as any;
+
+    this.contentRef = createRef<HTMLDivElement>();
+  }
+
+  componentDidMount(): void {
+    if (!this.contentRef.current) return;
+
+    const size = this.contentRef.current.getBoundingClientRect();
+
+    console.log(size);
+
+    this.setState({
+      width: size.width,
+      height: size.height,
+    });
   }
 
   toggleFullScreen = () => {
@@ -188,7 +210,9 @@ export default class BaseWindow extends Component<
               </button>
             </div>
           </div>
-          <div style={{ flex: 1 }}>{this.props.children}</div>
+          <div style={{ flex: 1 }} ref={this.contentRef}>
+            {this.props.children}
+          </div>
         </Box>
       </Rnd>
     );

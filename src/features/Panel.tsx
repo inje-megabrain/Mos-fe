@@ -26,17 +26,6 @@ const Panel = ({
   desktop = false,
 }: PanelProps) => {
   const [area, setArea] = useState<AreaType>(INITIAL_AREA);
-  const { setItems, items } = useItemManager();
-
-  useEffect(() => {
-    if (focused) {
-      const items = entry.reduce((acc, cur) => {
-        acc[cur.id] = cur;
-        return acc;
-      }, {} as { [key: string]: any });
-      setItems(items);
-    }
-  }, [focused]);
 
   return (
     <div
@@ -49,8 +38,8 @@ const Panel = ({
         height: "100%",
       }}
     >
-      <AreaLayer area={area} setArea={setArea}>
-        <DragLayer onDropEntry={onDropEntry}>
+      <DragLayer onDropEntry={onDropEntry}>
+        <AreaLayer area={area} setArea={setArea}>
           <div
             style={{
               position: "absolute",
@@ -62,11 +51,11 @@ const Panel = ({
             }}
           >
             {entry.map((en) => (
-              <Entry key={en.id} area={area} data={en} />
+              <Entry key={en.path} area={area} data={en} />
             ))}
           </div>
-        </DragLayer>
-      </AreaLayer>
+        </AreaLayer>
+      </DragLayer>
     </div>
   );
 };

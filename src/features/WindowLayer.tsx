@@ -11,7 +11,7 @@ export default function WindowLayer() {
       <div
         style={{
           display: "flex",
-          justifyContent: "flex-start",
+          justifyContent: "center",
           gap: "4px",
           alignItems: "center",
           position: "sticky",
@@ -20,19 +20,13 @@ export default function WindowLayer() {
           boxShadow: "0px -5px 5px rgba(255,255,255, 0.2) blur",
           backdropFilter: "blur(50px)",
           width: "100%",
+          minHeight: 40,
           bottom: 0,
         }}
       >
-        <>
-          <Button
-            onClick={() => {
-              console.log("hello");
-              createWindow("dir", { path: "/hello/h1/h2" });
-            }}
-          >
-            +
-          </Button>
-          {windows.map((ctx) => (
+        {windows
+          .filter((win) => win.id !== "Desktop")
+          .map((ctx) => (
             <WindowItem
               key={ctx.id}
               {...ctx}
@@ -41,11 +35,12 @@ export default function WindowLayer() {
               }
             />
           ))}
-        </>
       </div>
-      {windows.map((ctx) => (
-        <Window key={ctx.id} {...ctx} {...createHandle(ctx.id)} />
-      ))}
+      {windows
+        .filter((win) => win.id !== "Desktop")
+        .map((ctx) => (
+          <Window key={ctx.id} {...ctx} {...createHandle(ctx.id)} />
+        ))}
     </>
   );
 }

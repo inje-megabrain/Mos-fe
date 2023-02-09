@@ -19,6 +19,7 @@ export async function updateFile({ dir, file, rename }: UDir) {
       .post("/renameFile", null, { params: { dir, file, rename } })
       .then((v) => {
         console.log(v);
+        res(null);
       });
   });
 }

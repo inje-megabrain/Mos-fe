@@ -1,9 +1,9 @@
 import { atom } from "recoil";
 import { IEntry } from "../types/entry";
 
-const selectedAtom = atom<IEntry | null>({
-  key: "selectedAtom",
+const draggedAtom = atom<IEntry | null>({
+  key: "draggedAtom",
   default: null,
 });
 
-export default selectedAtom;
+export default draggedAtom;
