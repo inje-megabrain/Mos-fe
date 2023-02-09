@@ -1,5 +1,5 @@
 import { useMutation } from "react-query";
-import { createFile } from "../api/creatFile";
+import { createFile } from "../api/createFile";
 
 export default function useCreateFile() {
   const mutation = useMutation(createFile, {

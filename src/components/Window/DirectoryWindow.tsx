@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { uploadFile } from "../../api/uploadFile";
 import Panel from "../../features/Panel";
 import useFetchDir from "../../query/useFetchDir";
 import { IEntry } from "../../types/entry";
+import { onDrop } from "../../utils/drag";
 import { transformEntry } from "../../utils/entry";
 import { getNearEntryName } from "../../utils/path";
 import BaseWindow, { WindowHandle } from "./BaseWindow";
@@ -9,22 +11,15 @@ import DirectoryHeader from "./DirectoryHeader";
 
 export type DirectoryPayload = {
   path: string;
+  refreshNumber: number;
 };
 
 const DirectoryWindow = (props: WindowHandle<DirectoryPayload>) => {
-  const [entry, setEntry] = useState<IEntry[]>([]);
-  const { refetch, data, isSuccess } = useFetchDir(
-    props.payload.path,
-    (data) => {
-      setEntry(transformEntry(data, props.payload.path));
-    }
-  );
+  const { refetch, data, isSuccess } = useFetchDir(props.payload.path);
 
   useEffect(() => {
-    if (props.hasFocus()) {
-      // TODO request Entry data...
-    }
-  }, [props]);
+    refetch();
+  }, [props.payload.refreshNumber]);
 
   useEffect(() => {
     // set Window Name
@@ -55,8 +50,8 @@ const DirectoryWindow = (props: WindowHandle<DirectoryPayload>) => {
         <div style={{ flex: 1 }}>
           <Panel
             focused={props.hasFocus()}
-            entry={entry}
-            onDropEntry={() => {}}
+            entry={transformEntry(data || [], props.payload.path)}
+            onDropEntry={onDrop}
           />
         </div>
       </div>

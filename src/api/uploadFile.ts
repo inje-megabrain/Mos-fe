@@ -17,7 +17,7 @@ export async function uploadFile({
   let i = 0;
   for (const file of files) {
     // console.log("key", file);
-    formData.append(`file[${i++}]`, file);
+    formData.append(`files[${i++}]`, file);
   }
 
   return new Promise((res) => {
@@ -27,6 +27,7 @@ export async function uploadFile({
       })
       .then((v) => {
         console.log(v);
+        res(null);
       });
   });
 }
