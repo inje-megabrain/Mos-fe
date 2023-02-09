@@ -40,7 +40,9 @@ const DirectoryWindow = (props: WindowHandle<DirectoryPayload>) => {
     }
   };
 
-  const onDropEntry = (e: DragEvent) => {
+  if (item) console.log(item);
+
+  const onDropEntry = ((item) => (e: DragEvent) => {
     const files = e.dataTransfer?.files;
     if (files && files.length > 0) {
       uploadFile({ dir: props.payload.path, files }).then(() => {
@@ -53,7 +55,7 @@ const DirectoryWindow = (props: WindowHandle<DirectoryPayload>) => {
         refresh();
       });
     }
-  };
+  })(item);
 
   const setPath = (path: string) => {
     props.setContext("payload", {

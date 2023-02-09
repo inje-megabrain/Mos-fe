@@ -81,12 +81,6 @@ const Entry = ({ area, data }: EntryProps) => {
       // }}
       className="entry"
       onDoubleClick={onDoubleClick}
-      onDragStart={() => {
-        setIsSelected(true);
-      }}
-      onMouseDown={() => {
-        setIsSelected(true);
-      }}
       onClick={onClick}
       ref={element}
       style={{
