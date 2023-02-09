@@ -106,8 +106,6 @@ export default class BaseWindow extends Component<
 
     const size = this.contentRef.current.getBoundingClientRect();
 
-    console.log(size);
-
     this.setState({
       width: size.width,
       height: size.height,

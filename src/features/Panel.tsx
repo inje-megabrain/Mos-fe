@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import Entry from "../components/Entry";
 import ImageIcon from "../components/Icon/ImageIcon";
 import { INITIAL_AREA } from "../constants";
-import useItemManager from "../hooks/useItemManager";
 import { AreaType } from "../types/area";
 import { IEntry } from "../types/entry";
 import AreaLayer from "./AreaLayer";

@@ -1,6 +1,10 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { moveFile } from "../../api/moveFile";
 import { uploadFile } from "../../api/uploadFile";
+import selectedAtom from "../../atoms/selectedAtom";
 import Panel from "../../features/Panel";
+import useWindowManager from "../../hooks/useWindowManager";
 import useFetchDir from "../../query/useFetchDir";
 import { IEntry } from "../../types/entry";
 import { onDrop } from "../../utils/drag";
@@ -17,6 +21,9 @@ export type DirectoryPayload = {
 const DirectoryWindow = (props: WindowHandle<DirectoryPayload>) => {
   const { refetch, data, isSuccess } = useFetchDir(props.payload.path);
 
+  const { requestRefresh, getFocusedWindow } = useWindowManager();
+  const item = useRecoilValue(selectedAtom);
+
   useEffect(() => {
     refetch();
   }, [props.payload.refreshNumber]);
@@ -25,6 +32,28 @@ const DirectoryWindow = (props: WindowHandle<DirectoryPayload>) => {
     // set Window Name
     props.setContext("name", getNearEntryName(props.payload.path));
   }, []);
+
+  const refresh = () => {
+    const win = getFocusedWindow();
+    if (win) {
+      requestRefresh(win.id);
+    }
+  };
+
+  const onDropEntry = (e: DragEvent) => {
+    const files = e.dataTransfer?.files;
+    if (files && files.length > 0) {
+      uploadFile({ dir: props.payload.path, files }).then(() => {
+        refresh();
+      });
+    }
+    console.log(item);
+    if (item) {
+      moveFile({ dir: item.path, mv_dir: props.payload.path }).then(() => {
+        refresh();
+      });
+    }
+  };
 
   const setPath = (path: string) => {
     props.setContext("payload", {
@@ -51,7 +80,7 @@ const DirectoryWindow = (props: WindowHandle<DirectoryPayload>) => {
           <Panel
             focused={props.hasFocus()}
             entry={transformEntry(data || [], props.payload.path)}
-            onDropEntry={onDrop}
+            onDropEntry={onDropEntry}
           />
         </div>
       </div>

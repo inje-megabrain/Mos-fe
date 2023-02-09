@@ -24,6 +24,11 @@ const VideoWindow = (props: WindowHandle<VideoPayload>) => {
     });
   }, []);
 
+  useEffect(() => {
+    // set Window Name
+    props.setContext("name", props.payload.name);
+  }, []);
+
   return (
     <BaseWindow {...props}>
       <video controls loop muted autoPlay>

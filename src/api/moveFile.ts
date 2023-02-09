@@ -15,6 +15,7 @@ export async function moveFile({ dir, mv_dir }: MFile) {
   return new Promise((res) => {
     client.post("/moveDir", null, { params: { dir, mv_dir } }).then((v) => {
       console.log(v);
+      res(null);
     });
   });
 }

@@ -13,7 +13,7 @@ type CDir = {
 
 export async function copyDir({ dir, copyDir }: CDir) {
   return new Promise((res) => {
-    client.post("/makeDir", null, { params: { dir, copyDir } }).then((v) => {
+    client.post("/copy", null, { params: { dir, copyDir } }).then((v) => {
       console.log(v);
     });
   });
