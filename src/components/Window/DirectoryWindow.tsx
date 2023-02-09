@@ -17,7 +17,7 @@ export type DirectoryPayload = {
 };
 
 const DirectoryWindow = (props: WindowHandle<DirectoryPayload>) => {
-  const { refetch, data, isSuccess } = useFetchDir(props.payload.path);
+  const { refetch, data } = useFetchDir(props.payload.path);
 
   const { requestRefresh, getFocusedWindow } = useWindowManager();
   const item = useRecoilValue(selectedAtom);
@@ -31,30 +31,6 @@ const DirectoryWindow = (props: WindowHandle<DirectoryPayload>) => {
     props.setContext("name", getNearEntryName(props.payload.path));
   }, []);
 
-  const refresh = () => {
-    const win = getFocusedWindow();
-    if (win) {
-      requestRefresh(win.id);
-    }
-  };
-
-  if (item) console.log(item);
-
-  const onDropEntry = ((item) => (e: DragEvent) => {
-    const files = e.dataTransfer?.files;
-    if (files && files.length > 0) {
-      uploadFile({ dir: props.payload.path, files }).then(() => {
-        refresh();
-      });
-    }
-    console.log(item);
-    if (item) {
-      moveFile({ dir: item.path, mv_dir: props.payload.path }).then(() => {
-        refresh();
-      });
-    }
-  })(item);
-
   const setPath = (path: string) => {
     props.setContext("payload", {
       ...props.payload,
@@ -64,26 +40,31 @@ const DirectoryWindow = (props: WindowHandle<DirectoryPayload>) => {
 
   return (
     <BaseWindow {...props}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          height: "100%",
-        }}
-      >
-        <DirectoryHeader
-          path={props.payload.path}
-          setPath={setPath}
-          refresh={refetch}
-        />
-        <div style={{ flex: 1 }}>
-          <Panel
-            focused={props.hasFocus()}
-            entry={transformEntry(data || [], props.payload.path)}
-            onDropEntry={onDropEntry}
+      {() => (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            height: "100%",
+          }}
+        >
+          <DirectoryHeader
+            path={props.payload.path}
+            setPath={setPath}
+            refresh={refetch}
           />
+          <div style={{ flex: 1 }}>
+            <Panel
+              parent={props.id}
+              entry={transformEntry(data || [], props.payload.path)}
+              repaint={() => {
+                refetch();
+                requestRefresh(getFocusedWindow()?.id);
+              }}
+            />
+          </div>
         </div>
-      </div>
+      )}
     </BaseWindow>
   );
 };

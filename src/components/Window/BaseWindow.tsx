@@ -1,4 +1,4 @@
-import { Box, Button, Paper } from "@mui/material";
+import { Box } from "@mui/material";
 import {
   Component,
   createRef,
@@ -17,13 +17,20 @@ export type WindowType =
   | "prompt"
   | "null";
 
+export type WindowContentNodeProps = {
+  // contentRef: RefObject<HTMLDivElement>;
+  setState: BaseWindow["setState"];
+} & WindowState;
+
+export type WindowContentNode = (props: WindowContentNodeProps) => JSX.Element;
+
 interface BaseWindowFieldProps<T = any> {
   id: string;
   name: string;
   type: WindowType;
   active: boolean;
   payload: T;
-  children: ReactNode;
+  children: WindowContentNode;
 }
 
 export type WindowContext<T = any> = Omit<BaseWindowFieldProps<T>, "children">;
@@ -48,14 +55,6 @@ type WindowState = {
   width: number;
   x: number;
   y: number;
-};
-
-const INITIAL_STATE: WindowState = {
-  full: false,
-  height: 200,
-  width: 200,
-  x: 100,
-  y: 100,
 };
 
 const buttonStyle: CSSProperties = {
@@ -91,25 +90,15 @@ export default class BaseWindow extends Component<
   BaseWindowProps,
   WindowState
 > {
-  contentRef: RefObject<HTMLDivElement>;
   constructor(props: Readonly<BaseWindowProps<any>>) {
     super(props);
     this.state = {
-      ...INITIAL_STATE,
-    } as any;
-
-    this.contentRef = createRef<HTMLDivElement>();
-  }
-
-  componentDidMount(): void {
-    if (!this.contentRef.current) return;
-
-    const size = this.contentRef.current.getBoundingClientRect();
-
-    this.setState({
-      width: size.width,
-      height: size.height,
-    });
+      full: false,
+      height: document.body.clientHeight / 2,
+      width: document.body.clientWidth / 2,
+      x: document.body.clientWidth / 4,
+      y: document.body.clientHeight / 4,
+    };
   }
 
   toggleFullScreen = () => {
@@ -121,6 +110,8 @@ export default class BaseWindow extends Component<
   render(): ReactNode {
     return (
       <Rnd
+        disableDragging={this.state.full}
+        enableResizing={!this.state.full}
         dragHandleClassName="handle"
         size={{
           width: this.state.full ? document.body.clientWidth : this.state.width,
@@ -150,7 +141,6 @@ export default class BaseWindow extends Component<
           top: 0,
           left: 0,
           visibility: this.props.active ? "visible" : "hidden",
-          //border: "2px solid black",
           border: "3px solid #026AFE",
           borderRadius: "10px 10px 0px 0px",
           zIndex: this.props.hasFocus() ? 1002 : 999,
@@ -208,8 +198,8 @@ export default class BaseWindow extends Component<
               </button>
             </div>
           </div>
-          <div style={{ flex: 1 }} ref={this.contentRef}>
-            {this.props.children}
+          <div style={{ flex: 1, height: "100%", width: "100%" }}>
+            {this.props.children({ setState: this.setState, ...this.state })}
           </div>
         </Box>
       </Rnd>

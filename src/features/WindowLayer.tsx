@@ -26,15 +26,17 @@ export default function WindowLayer() {
       >
         {windows
           .filter((win) => win.id !== "Desktop")
-          .map((ctx) => (
-            <WindowItem
-              key={ctx.id}
-              {...ctx}
-              requestActive={() =>
-                createHandle(ctx.id).setContext("active", true)
-              }
-            />
-          ))}
+          .map((ctx) => {
+            const hlr = createHandle(ctx.id);
+            return (
+              <WindowItem
+                key={ctx.id}
+                {...ctx}
+                requestActive={() => hlr.setContext("active", true)}
+                close={() => hlr.destroy()}
+              />
+            );
+          })}
       </div>
       {windows
         .filter((win) => win.id !== "Desktop")

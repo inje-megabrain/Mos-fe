@@ -72,7 +72,9 @@ export default function useWindowManager() {
     getDesktop() {
       return windows.find((el) => el.id === "Desktop");
     },
-    requestRefresh(id: string) {
+    requestRefresh(id?: string) {
+      if (!id) return;
+
       const win = windows.find((el) => el.id === id);
       if (win?.type === "dir") {
         ret.createHandle(id).setContext("payload", {
@@ -80,6 +82,9 @@ export default function useWindowManager() {
           refreshNumber: win.payload.refreshNumber + 1,
         });
       }
+    },
+    getWindow(id: string) {
+      return windows[getIndex(windows, id)];
     },
   };
 

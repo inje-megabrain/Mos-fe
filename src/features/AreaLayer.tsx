@@ -1,11 +1,9 @@
 import {
   Dispatch,
-  DragEvent,
   MouseEvent,
   ReactNode,
   RefObject,
   SetStateAction,
-  useEffect,
   useRef,
   useState,
 } from "react";
@@ -18,6 +16,7 @@ type AreaLayerProps = {
   area: AreaType;
   setArea: Dispatch<SetStateAction<AreaType>>;
   children: ReactNode;
+  handleFocus(): void;
 };
 
 function getXY({ nativeEvent }: MouseEvent, base: Pos) {
@@ -36,17 +35,18 @@ function getBase(ref: RefObject<HTMLDivElement>) {
   } as Pos;
 }
 
-const AreaLayer = ({ area, setArea, children }: AreaLayerProps) => {
+const AreaLayer = ({
+  area,
+  setArea,
+  children,
+  handleFocus,
+}: AreaLayerProps) => {
   const clickRef = useRef(false);
   const baseRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
 
-  const reset = () => {
-    clickRef.current = false;
-    setIsDragging(false);
-  };
-
   const onMouseDown = (e: MouseEvent) => {
+    handleFocus();
     if (e.button !== 0) return;
 
     clickRef.current = true;
@@ -60,29 +60,25 @@ const AreaLayer = ({ area, setArea, children }: AreaLayerProps) => {
       if (!isDragging) setIsDragging(true);
     }
   };
-
-  const onMouseUp = (e: MouseEvent) => {
-    reset();
-  };
-
-  const onDragStart = (e: DragEvent) => {
-    reset();
+  const reset = () => {
+    clickRef.current = false;
+    setIsDragging(false);
   };
 
   return (
     <div
       ref={baseRef}
-      onDragStart={onDragStart}
+      onDragStart={reset}
+      onMouseUp={reset}
       onMouseDown={onMouseDown}
-      onMouseUp={onMouseUp}
       onMouseMove={onMouseMove}
       style={{
-        position: "absolute",
+        position: "relative",
         top: 0,
         left: 0,
         width: "100%",
         height: "100%",
-        zIndex: isDragging ? 1002 : 999,
+        zIndex: isDragging ? 1002 : 0,
       }}
     >
       {children}

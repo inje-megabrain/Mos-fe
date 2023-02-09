@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useEffect, useRef } from "react";
+import { DragEvent, ReactNode, useCallback } from "react";
 
 type DragLayerProps = {
   onDropEntry(e: DragEvent): void;
@@ -6,8 +6,6 @@ type DragLayerProps = {
 };
 
 const DragLayer = ({ onDropEntry, children }: DragLayerProps) => {
-  const dragRef = useRef<HTMLLabelElement>(null);
-
   const handleDragIn = useCallback((e: DragEvent): void => {
     e.preventDefault();
     e.stopPropagation();
@@ -23,49 +21,38 @@ const DragLayer = ({ onDropEntry, children }: DragLayerProps) => {
     e.stopPropagation();
   }, []);
 
-  const handleDrop = useCallback((e: DragEvent): void => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleDrop = useCallback(
+    (e: DragEvent): void => {
+      e.preventDefault();
+      e.stopPropagation();
 
-    if (e.dataTransfer) {
-      onDropEntry(e);
-    }
-  }, []);
+      if (e.dataTransfer) {
+        onDropEntry(e);
+      }
+    },
+    [onDropEntry]
+  );
 
-  const initDragEvents = useCallback((): void => {
-    if (dragRef.current !== null) {
-      dragRef.current.addEventListener("dragenter", handleDragIn);
-      dragRef.current.addEventListener("dragleave", handleDragOut);
-      dragRef.current.addEventListener("dragover", handleDragOver);
-      dragRef.current.addEventListener("drop", handleDrop);
-    }
-  }, [handleDragIn, handleDragOut, handleDragOver, handleDrop]);
+  // const initDragEvents = useCallback((): void => {
+  //   if (dragRef.current !== null) {
+  //     dragRef.current.addEventListener("dragenter", handleDragIn);
+  //     dragRef.current.addEventListener("dragleave", handleDragOut);
+  //     dragRef.current.addEventListener("dragover", handleDragOver);
+  //     dragRef.current.addEventListener("drop", handleDrop);
+  //   }
+  // }, [handleDragIn, handleDragOut, handleDragOver, handleDrop]);
 
-  const resetDragEvents = useCallback((): void => {
-    if (dragRef.current !== null) {
-      dragRef.current.removeEventListener("dragenter", handleDragIn);
-      dragRef.current.removeEventListener("dragleave", handleDragOut);
-      dragRef.current.removeEventListener("dragover", handleDragOver);
-      dragRef.current.removeEventListener("drop", handleDrop);
-    }
-  }, [handleDragIn, handleDragOut, handleDragOver, handleDrop]);
-
-  useEffect(() => {
-    initDragEvents();
-
-    return () => resetDragEvents();
-  }, [initDragEvents, resetDragEvents]);
+  // const resetDragEvents = useCallback((): void => {
+  //   if (dragRef.current !== null) {
+  //     dragRef.current.removeEventListener("dragenter", handleDragIn);
+  //     dragRef.current.removeEventListener("dragleave", handleDragOut);
+  //     dragRef.current.removeEventListener("dragover", handleDragOver);
+  //     dragRef.current.removeEventListener("drop", handleDrop);
+  //   }
+  // }, [handleDragIn, handleDragOut, handleDragOver, handleDrop]);
 
   return (
-    <div
-      style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-      }}
-    >
+    <>
       <input
         type="file"
         id="fileUpload"
@@ -78,16 +65,24 @@ const DragLayer = ({ onDropEntry, children }: DragLayerProps) => {
 
       <label
         htmlFor="fileUpload"
-        ref={dragRef}
+        onDragEnter={handleDragIn}
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+        onDragLeave={handleDragOut}
         style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
           display: "block",
           width: "100%",
           height: "100%",
         }}
       >
-        {children}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "5px" }}>
+          {children}
+        </div>
       </label>
-    </div>
+    </>
   );
 };
 
