@@ -50,7 +50,7 @@ const Entry = ({ area, data }: EntryProps) => {
 
   useEffect(() => {
     if (isSelected) setItem(data);
-  }, [isSelected]);
+  }, [isSelected, setItem]);
 
   const onDoubleClick = () => {
     if (data.isDir) return createWindow("dir", { path: data.path });
@@ -82,6 +82,7 @@ const Entry = ({ area, data }: EntryProps) => {
       className="entry"
       onDoubleClick={onDoubleClick}
       onClick={onClick}
+      onDragStart={() => setItem(data)}
       ref={element}
       style={{
         display: "flex",

@@ -6,8 +6,6 @@ import selectedAtom from "../../atoms/selectedAtom";
 import Panel from "../../features/Panel";
 import useWindowManager from "../../hooks/useWindowManager";
 import useFetchDir from "../../query/useFetchDir";
-import { IEntry } from "../../types/entry";
-import { onDrop } from "../../utils/drag";
 import { transformEntry } from "../../utils/entry";
 import { getNearEntryName } from "../../utils/path";
 import BaseWindow, { WindowHandle } from "./BaseWindow";
