@@ -20,25 +20,30 @@ client.interceptors.response.use((res) => {
     const token = res.data as { accessToken?: string; refreshToken?: string };
     if (token.accessToken) {
       setAccessToken(token.accessToken);
+      window.localStorage.setItem("accessToken", token.accessToken);
     }
     if (token.refreshToken) {
       setRefreshToken(token.refreshToken);
+      window.localStorage.setItem("refreshToken", token.refreshToken);
     }
   }
   return res;
 });
 
 export const setAccessToken = (token: string) => {
-  client.defaults.headers.common[ACCESS_HEADER_KEY] = `${token}`;
+  if (token) {
+    client.defaults.headers.common[ACCESS_HEADER_KEY] = `${token}`;
+  } else {
+    delete client.defaults.headers.common[ACCESS_HEADER_KEY];
+  }
 };
 
 export const setRefreshToken = (token: string) => {
-  client.defaults.headers.common[REFRESH_HEADER_KEY] = `${token}`;
+  if (token) {
+    client.defaults.headers.common[REFRESH_HEADER_KEY] = `${token}`;
+  } else {
+    delete client.defaults.headers.common[REFRESH_HEADER_KEY];
+  }
 };
-
-// export const setAuthHeader = (token: IToken) => {
-//   setAccessToken(token.access);
-//   setRefreshToken(token.refresh);
-// };
 
 export default client;
