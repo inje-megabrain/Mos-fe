@@ -1,20 +1,15 @@
 import { useEffect } from "react";
-import {
-  Menu,
-  Item,
-  Separator,
-  Submenu,
-  useContextMenu,
-} from "react-contexify";
+import { Menu, useContextMenu } from "react-contexify";
 import "react-contexify/ReactContexify.css";
-import useItemManager from "../hooks/useItemManager";
+import { useRecoilState } from "recoil";
+import selectedAtom from "../atoms/selectedAtom";
 import EmptyContextMenu from "./EmptyContextMenu";
 import SingleFileContextMenu from "./SingleFileContextMenu";
 
 const MENU_ID = "menu";
 
 const ContextMenuLayer = () => {
-  const { item, setItem } = useItemManager();
+  const [item, setItem] = useRecoilState(selectedAtom);
   const { show } = useContextMenu({
     id: MENU_ID,
   });

@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
+import { useRecoilState } from "recoil";
+import selectedAtom from "../atoms/selectedAtom";
 import Entry from "../components/Entry";
 import ImageIcon from "../components/Icon/ImageIcon";
 import { INITIAL_AREA } from "../constants";
-import useItemManager from "../hooks/useItemManager";
 import { AreaType } from "../types/area";
 import { IEntry } from "../types/entry";
 import AreaLayer from "./AreaLayer";
@@ -22,10 +23,10 @@ const Panel = ({
   entry,
   isRow,
   onMouseDown = () => {},
-  onDropEntry,
   desktop = false,
 }: PanelProps) => {
   const [area, setArea] = useState<AreaType>(INITIAL_AREA);
+  const [item, setItem] = useRecoilState(selectedAtom);
 
   return (
     <div
@@ -38,7 +39,7 @@ const Panel = ({
         height: "100%",
       }}
     >
-      <DragLayer onDropEntry={onDropEntry}>
+      <DragLayer onDropEntry={(e) => console.log(item)}>
         <AreaLayer area={area} setArea={setArea}>
           <div
             style={{

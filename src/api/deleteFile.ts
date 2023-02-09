@@ -12,15 +12,9 @@ type DFile = {
 
 export async function deleteFile({ file }: DFile) {
   return new Promise((res) => {
-    client
-      .post("/removeFile", null, {
-        params: {
-          file,
-        },
-      })
-      .then((v) => {
-        console.log(v);
-        res(null);
-      });
+    client.post("/removeFile?file=" + file).then((v) => {
+      console.log(v);
+      res(null);
+    });
   });
 }

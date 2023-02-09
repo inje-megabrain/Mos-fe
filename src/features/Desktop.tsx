@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { moveFile } from "../api/moveFile";
 import { uploadFile } from "../api/uploadFile";
 import focusAtom from "../atoms/focusAtom";
+import selectedAtom from "../atoms/selectedAtom";
 import useWindowManager from "../hooks/useWindowManager";
 import useFetchDir from "../query/useFetchDir";
-import { IEntry } from "../types/entry";
 import { onDrop } from "../utils/drag";
 import { transformEntry } from "../utils/entry";
 import Panel from "./Panel";
@@ -13,12 +14,36 @@ import WindowLayer from "./WindowLayer";
 const Desktop = () => {
   const [focusId, setFocus] = useRecoilState(focusAtom);
   const { getDesktop } = useWindowManager();
+  const { getFocusedWindow, requestRefresh } = useWindowManager();
+  const item = useRecoilValue(selectedAtom);
 
   const { refetch, data, isSuccess } = useFetchDir("/");
 
   useEffect(() => {
     refetch();
   }, [getDesktop()?.payload.refreshNumber]);
+
+  const refresh = () => {
+    const win = getFocusedWindow();
+    if (win) {
+      requestRefresh(win.id);
+    }
+  };
+
+  const onDropEntry = (e: DragEvent) => {
+    const files = e.dataTransfer?.files;
+    if (files && files.length > 0) {
+      uploadFile({ dir: "/", files }).then(() => {
+        refresh();
+      });
+    }
+    console.log(item);
+    if (item) {
+      moveFile({ dir: item.path, mv_dir: "/" }).then(() => {
+        refresh();
+      });
+    }
+  };
 
   return (
     <>
@@ -29,7 +54,7 @@ const Desktop = () => {
         onMouseDown={() => {
           setFocus("Desktop");
         }}
-        onDropEntry={onDrop}
+        onDropEntry={onDropEntry}
       />
       <WindowLayer />
     </>

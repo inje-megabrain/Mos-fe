@@ -1,13 +1,11 @@
 import React, { useRef, useEffect, useState, DragEvent } from "react";
-import Styled from "styled-components";
-import useItemManager from "../hooks/useItemManager";
+import { useRecoilState } from "recoil";
+import selectedAtom from "../atoms/selectedAtom";
 import useWindowManager from "../hooks/useWindowManager";
 import { AreaType } from "../types/area";
 import { IEntry } from "../types/entry";
 import { isIn, normalize, normalizeAndArea } from "../utils/area";
-import { transformExtIntoType } from "../utils/ext";
 import Icon from "./Icon";
-import FolderIcon from "./Icon/FolderIcon";
 import { PicturePayload } from "./Window/PictureWindow";
 import { TxtPayload } from "./Window/TxtWindow";
 import { VideoPayload } from "./Window/VideoWindow";
@@ -31,7 +29,7 @@ type EntryProps = {
 //Props : area, EntryDataType
 const Entry = ({ area, data }: EntryProps) => {
   const [isSelected, setIsSelected] = useState(false);
-  const { setItem } = useItemManager();
+  const [item, setItem] = useRecoilState(selectedAtom);
   const { createWindow } = useWindowManager();
 
   const element = useRef<HTMLDivElement>(null);
@@ -51,8 +49,8 @@ const Entry = ({ area, data }: EntryProps) => {
   }, [area]);
 
   useEffect(() => {
-    setItem(data);
-  }, [isSelected]);
+    if (isSelected) setItem(data);
+  }, [isSelected, setItem]);
 
   const onDoubleClick = () => {
     if (data.isDir) return createWindow("dir", { path: data.path });
@@ -71,6 +69,10 @@ const Entry = ({ area, data }: EntryProps) => {
       });
   };
 
+  const onClick = () => {
+    setItem(data);
+  };
+
   return (
     <div
       draggable
@@ -79,7 +81,8 @@ const Entry = ({ area, data }: EntryProps) => {
       // }}
       className="entry"
       onDoubleClick={onDoubleClick}
-      onDragStart={() => {}}
+      onClick={onClick}
+      onDragStart={() => setItem(data)}
       ref={element}
       style={{
         display: "flex",

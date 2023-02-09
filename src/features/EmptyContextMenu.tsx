@@ -2,12 +2,10 @@ import { Item, Submenu } from "react-contexify";
 import { createDir } from "../api/createDir";
 import { createFile } from "../api/createFile";
 import { PromptPayload } from "../components/Window/PromptWindow";
-import useItemManager from "../hooks/useItemManager";
 import useWindowManager from "../hooks/useWindowManager";
 import { makePath } from "../utils/path";
 
 const EmptyContextMenu = () => {
-  const { getSelection } = useItemManager();
   const { getFocusedWindow, createWindow, requestRefresh } = useWindowManager();
   // const { mutateAsync: createDir } = useCreateDir();
   // const { mutateAsync: createFile } = useCreateFile();
