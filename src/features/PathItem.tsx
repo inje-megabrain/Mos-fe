@@ -4,7 +4,18 @@ type PathItemProps = {
 };
 
 const PathItem = ({ onClick, name }: PathItemProps) => {
-  return <span onClick={onClick}>{name}</span>;
+  return (
+    <span
+      onClick={onClick}
+      style={{
+        textOverflow: "ellipsis",
+        overflow: "hidden",
+        whiteSpace: "nowrap",
+      }}
+    >
+      {name}
+    </span>
+  );
 };
 
 export default PathItem;

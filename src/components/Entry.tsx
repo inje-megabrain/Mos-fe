@@ -92,7 +92,17 @@ const Entry = ({ area, data }: EntryProps) => {
       }}
     >
       <Icon width={60} height={60} type={data.ext} />
-      <span>{data.name}</span>
+      <span
+        style={{
+          width: "60px",
+          textOverflow: "ellipsis",
+          overflow: "hidden",
+          whiteSpace: "nowrap",
+          textAlign: "center",
+        }}
+      >
+        {data.name}
+      </span>
     </div>
   );
 };
