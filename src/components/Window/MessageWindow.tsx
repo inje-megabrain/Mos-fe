@@ -7,16 +7,18 @@ export type MessagePayload = {
 const MessageWindow = (props: WindowHandle<MessagePayload>) => {
   return (
     <BaseWindow {...props}>
-      <div
-        style={{
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {props.payload.message}
-      </div>
+      {({}) => (
+        <div
+          style={{
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {props.payload.message}
+        </div>
+      )}
     </BaseWindow>
   );
 };

@@ -14,7 +14,7 @@ const Image = ({ url }: ImageProps) => {
     });
   }, []);
 
-  return <img src={path} />;
+  return <img style={{ height: "100%", width: "100%" }} src={path} />;
 };
 
 export default Image;

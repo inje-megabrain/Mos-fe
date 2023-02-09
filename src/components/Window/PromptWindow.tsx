@@ -16,38 +16,44 @@ const PromptWindow = (props: WindowHandle<PromptPayload>) => {
 
   return (
     <BaseWindow {...props}>
-      <div
-        style={{
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection: "column",
-        }}
-      >
-        {props.payload.message}
-        <input
-          style={{ marginTop: "10px" }}
-          placeholder="Entry Name"
-          value={value}
-          onChange={onTextChange}
-        />
+      {() => (
         <div
-          style={{ display: "flex", justifyContent: "flex-end", width: "80%" }}
+          style={{
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+          }}
         >
-          <button
-            style={{ marginTop: "20px", display: "flex" }}
-            onClick={() => {
-              if (value && value.length > 0) {
-                props.payload.onConfirm(value);
-                props.destroy();
-              }
+          {props.payload.message}
+          <input
+            style={{ marginTop: "10px" }}
+            placeholder="Entry Name"
+            value={value}
+            onChange={onTextChange}
+          />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              width: "80%",
             }}
           >
-            EDIT
-          </button>
+            <button
+              style={{ marginTop: "20px", display: "flex" }}
+              onClick={() => {
+                if (value && value.length > 0) {
+                  props.payload.onConfirm(value);
+                  props.destroy();
+                }
+              }}
+            >
+              EDIT
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </BaseWindow>
   );
 };

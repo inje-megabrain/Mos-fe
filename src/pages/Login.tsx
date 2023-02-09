@@ -6,7 +6,7 @@ import { Box, Button, TextField } from "@mui/material";
 //import useCreateDir from "../query/useCreateDir";
 
 const LoginStyle = Styled.div`
-  transform: translate(75%, 40%);
+  transform: translate(75%, 20%);
   display: flex;
   flex-direction:column;
   align-items:center;

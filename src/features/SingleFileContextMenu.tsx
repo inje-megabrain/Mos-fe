@@ -1,5 +1,6 @@
 import { Item } from "react-contexify";
 import { useRecoilValue } from "recoil";
+import { copyDir } from "../api/copyDir";
 import { deleteDir } from "../api/deleteDir";
 import { deleteFile } from "../api/deleteFile";
 import downloadFile from "../api/downloadFile";
@@ -31,7 +32,7 @@ const SingleFileContextMenu = () => {
         if (!item.isDir) {
           shareFile({ path: item.path }).then((v) => {
             createWindow<MessagePayload>("msg", {
-              message: `/downloadUUID?
+              message: `http://203.241.228.50:18200/downloadUUID?
             UUID=${v.message}`,
             });
           });
@@ -69,6 +70,14 @@ const SingleFileContextMenu = () => {
         else deleteFile({ file: item.path }).then(refresh);
         break;
       case "copy":
+        createWindow<PromptPayload>("prompt", {
+          message: "복사된 엔트리 이름(확장자 까지)",
+          onConfirm(text) {
+            copyDir({ dir: item.path, copyDir: `${item.parent}` }).then(
+              refresh
+            );
+          },
+        });
         break;
       case "download":
         if (!item.isDir) {

@@ -15,7 +15,7 @@ const PictureWindow = (props: WindowHandle<PicturePayload>) => {
 
   return (
     <BaseWindow {...props}>
-      <Image url={props.payload.path} />
+      {({}) => <Image url={props.payload.path} />}
     </BaseWindow>
   );
 };

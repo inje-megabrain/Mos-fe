@@ -6,6 +6,6 @@ import client from "./client";
  */
 
 export async function readFile({ filename }: { filename: string }) {
-  const response = await client.get(`/file?filename=${filename}`);
+  const response = await client.get(`/file?file_path=${filename}`);
   return response.data;
 }

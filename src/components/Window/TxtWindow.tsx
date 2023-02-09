@@ -15,16 +15,18 @@ const TxtWindow = (props: WindowHandle<TxtPayload>) => {
   }, []);
   return (
     <BaseWindow {...props}>
-      <div
-        style={{
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {data}
-      </div>
+      {() => (
+        <div
+          style={{
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {data}
+        </div>
+      )}
     </BaseWindow>
   );
 };

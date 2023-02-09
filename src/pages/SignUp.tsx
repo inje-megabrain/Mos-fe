@@ -5,7 +5,7 @@ import Styled from "styled-components";
 import useSignUp from "../query/useSignUp";
 
 const SignUpStyle = Styled.div`
-  transform: translate(75%, 40%);
+  transform: translate(75%, 20%);
   display: flex;
   flex-direction:column;
   align-items:center;

@@ -31,9 +31,11 @@ const VideoWindow = (props: WindowHandle<VideoPayload>) => {
 
   return (
     <BaseWindow {...props}>
-      <video controls loop muted autoPlay>
-        <source id={props.payload.path} src="" type="video/mp4"></source>
-      </video>
+      {() => (
+        <video controls loop muted autoPlay>
+          <source id={props.payload.path} src="" type="video/mp4"></source>
+        </video>
+      )}
     </BaseWindow>
   );
 };
