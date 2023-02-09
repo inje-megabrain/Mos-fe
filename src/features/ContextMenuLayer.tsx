@@ -7,21 +7,14 @@ import {
   useContextMenu,
 } from "react-contexify";
 import "react-contexify/ReactContexify.css";
-import { PromptPayload } from "../components/Window/PromptWindow";
 import useItemManager from "../hooks/useItemManager";
-import useWindowManager from "../hooks/useWindowManager";
-import useCreateDir from "../query/useCreateDir";
-import useCreateMemory from "../query/useCreateMemory";
-import { makePath } from "../utils/path";
 import EmptyContextMenu from "./EmptyContextMenu";
-import MultiFileContextMenu from "./MultiFileContextMenu";
 import SingleFileContextMenu from "./SingleFileContextMenu";
 
 const MENU_ID = "menu";
 
 const ContextMenuLayer = () => {
-  const { getSelection } = useItemManager();
-  const { getFocusedWindow, createWindow } = useWindowManager();
+  const { item, setItem } = useItemManager();
   const { show } = useContextMenu({
     id: MENU_ID,
   });
@@ -35,21 +28,29 @@ const ContextMenuLayer = () => {
     });
   }
 
+  function handleMouseDown(event: MouseEvent) {
+    if (event.button === 0) setItem(null);
+  }
+
   useEffect(() => {
     document.body.addEventListener("contextmenu", handleContextMenu);
+    document.body.addEventListener("mousedown", handleMouseDown);
 
     return () => {
       document.body.removeEventListener("contextmenu", handleContextMenu);
+      document.body.removeEventListener("mousedown", handleMouseDown);
     };
-  }, [handleContextMenu]);
+  }, [handleContextMenu, handleMouseDown]);
 
   return (
-    <Menu id={MENU_ID} style={{ zIndex: 1002 }}>
-      {getSelection().length === 0 && <EmptyContextMenu />}
+    <Menu
+      id={MENU_ID}
+      style={{ zIndex: 1002 }}
+      onMouseDown={(e) => e.stopPropagation()}
+    >
+      {!item && <EmptyContextMenu />}
 
-      {getSelection().length > 1 && <MultiFileContextMenu />}
-
-      {getSelection().length === 1 && <SingleFileContextMenu />}
+      {item && <SingleFileContextMenu />}
     </Menu>
   );
 };

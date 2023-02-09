@@ -7,21 +7,20 @@ import client from "./client";
  */
 
 type DDir = {
-  dir: string;
-  rm: string;
+  rm_dir: string;
 };
 
-export async function deleteDir({ dir, rm }: DDir) {
+export async function deleteDir({ rm_dir }: DDir) {
   return new Promise((res) => {
     client
       .post("/removeDir", null, {
         params: {
-          dir,
-          rm,
+          rm_dir,
         },
       })
       .then((v) => {
         console.log(v);
+        res(null);
       });
   });
 }

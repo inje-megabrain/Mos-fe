@@ -6,5 +6,5 @@ export interface IEntry {
   name: string;
   ext: WindowType;
   isDir: boolean;
-  id: string;
+  selected: boolean;
 }

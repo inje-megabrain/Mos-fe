@@ -8,6 +8,7 @@ import {
 } from "../components/Window/BaseWindow";
 import { makeWindow } from "../components/Window";
 import focusAtom from "../atoms/focusAtom";
+import { DirectoryPayload } from "../components/Window/DirectoryWindow";
 
 function getIndex(windows: WindowContext[], id: string) {
   return windows.findIndex((ctx) => ctx.id === id);
@@ -17,7 +18,7 @@ export default function useWindowManager() {
   const [windows, setWindows] = useRecoilState(windowAtom);
   const [focusId, setFocus] = useRecoilState(focusAtom);
 
-  return {
+  const ret = {
     windows,
     createHandle(id: string): Omit<WindowHandle, keyof WindowContext> {
       return {
@@ -68,5 +69,19 @@ export default function useWindowManager() {
 
       return windows.find((win) => win.id === focusId);
     },
+    getDesktop() {
+      return windows.find((el) => el.id === "Desktop");
+    },
+    requestRefresh(id: string) {
+      const win = windows.find((el) => el.id === id);
+      if (win?.type === "dir") {
+        ret.createHandle(id).setContext("payload", {
+          ...win.payload,
+          refreshNumber: win.payload.refreshNumber + 1,
+        });
+      }
+    },
   };
+
+  return ret;
 }

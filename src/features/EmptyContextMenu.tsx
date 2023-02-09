@@ -8,7 +8,7 @@ import { makePath } from "../utils/path";
 
 const EmptyContextMenu = () => {
   const { getSelection } = useItemManager();
-  const { getFocusedWindow, createWindow } = useWindowManager();
+  const { getFocusedWindow, createWindow, requestRefresh } = useWindowManager();
   // const { mutateAsync: createDir } = useCreateDir();
   // const { mutateAsync: createFile } = useCreateFile();
 
@@ -22,7 +22,10 @@ const EmptyContextMenu = () => {
         createWindow<PromptPayload>("prompt", {
           message: "이름을 입력하세요.",
           onConfirm: (text) => {
-            createDir({ dir: makePath(path, text) });
+            createDir({ dir: makePath(path, text) }).then(() => {
+              console.log("test");
+              requestRefresh(window.id);
+            });
           },
         });
         break;
@@ -30,7 +33,9 @@ const EmptyContextMenu = () => {
         createWindow<PromptPayload>("prompt", {
           message: "이름을 입력하세요.",
           onConfirm: (text) => {
-            createFile({ dir: path, file: text });
+            createFile({ dir: path, file: text }).then(() =>
+              requestRefresh(window.id)
+            );
           },
         });
         break;

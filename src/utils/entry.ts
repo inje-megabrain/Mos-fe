@@ -3,14 +3,14 @@ import { v4 } from "uuid";
 import { transformExtIntoType } from "./ext";
 
 export const transformEntry = (
-  rawEntry: Omit<IEntry, "id" | "path">[],
+  rawEntry: Omit<IEntry, "path">[],
   currentPath: string
 ) => {
   return rawEntry.map((en) => ({
     ...en,
     parent: currentPath,
     ext: transformExtIntoType(en.ext),
-    path: `${currentPath === "/" ? "" : "/"}/${en.name}`,
-    id: v4(),
+    selected: false,
+    path: `${currentPath === "/" ? "" : currentPath}/${en.name}`,
   }));
 };

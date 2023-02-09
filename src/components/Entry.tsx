@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, DragEvent } from "react";
 import Styled from "styled-components";
 import useItemManager from "../hooks/useItemManager";
 import useWindowManager from "../hooks/useWindowManager";
@@ -9,6 +9,8 @@ import { transformExtIntoType } from "../utils/ext";
 import Icon from "./Icon";
 import FolderIcon from "./Icon/FolderIcon";
 import { PicturePayload } from "./Window/PictureWindow";
+import { TxtPayload } from "./Window/TxtWindow";
+import { VideoPayload } from "./Window/VideoWindow";
 
 type EntryProps = {
   area: AreaType;
@@ -29,7 +31,7 @@ type EntryProps = {
 //Props : area, EntryDataType
 const Entry = ({ area, data }: EntryProps) => {
   const [isSelected, setIsSelected] = useState(false);
-  const { setSelectedById } = useItemManager();
+  const { setItem } = useItemManager();
   const { createWindow } = useWindowManager();
 
   const element = useRef<HTMLDivElement>(null);
@@ -40,25 +42,32 @@ const Entry = ({ area, data }: EntryProps) => {
       const size = element.current.getBoundingClientRect();
 
       setIsSelected(
-        size.x < normal.end.x &&
-          size.x + size.width > normal.start.x &&
-          size.y < normal.end.y &&
-          size.height + size.y > normal.start.y
+        size.left < normal.end.x &&
+          size.left + size.width > normal.start.x &&
+          size.top < normal.end.y &&
+          size.bottom > normal.start.y
       );
     }
   }, [area]);
 
   useEffect(() => {
-    setSelectedById(data.id, isSelected);
+    setItem(data);
   }, [isSelected]);
 
   const onDoubleClick = () => {
-    if (data.isDir) createWindow("dir", { path: data.path });
+    if (data.isDir) return createWindow("dir", { path: data.path });
 
     if (data.ext === "pic")
-      createWindow<PicturePayload>("pic", {
-        fileName: data.name,
-        folder: data.parent,
+      return createWindow<PicturePayload>("pic", { path: data.path });
+
+    if (data.ext === "txt")
+      return createWindow<TxtPayload>("txt", { path: data.path });
+
+    if (data.ext === "mov")
+      return createWindow<VideoPayload>("mov", {
+        path: data.path,
+        parent: data.parent,
+        name: data.name,
       });
   };
 
@@ -70,6 +79,7 @@ const Entry = ({ area, data }: EntryProps) => {
       // }}
       className="entry"
       onDoubleClick={onDoubleClick}
+      onDragStart={() => {}}
       ref={element}
       style={{
         display: "flex",

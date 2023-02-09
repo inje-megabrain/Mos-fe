@@ -2,15 +2,14 @@ import { useEffect, useState } from "react";
 import fetchImage from "../api/fetchImage";
 
 type ImageProps = {
-  fileName: string;
-  folder: string;
+  url: string;
 };
 
-const Image = ({ fileName, folder }: ImageProps) => {
+const Image = ({ url }: ImageProps) => {
   const [path, setPath] = useState("");
 
   useEffect(() => {
-    fetchImage(folder, fileName).then((data) => {
+    fetchImage(url).then((data) => {
       setPath(URL.createObjectURL(data));
     });
   }, []);

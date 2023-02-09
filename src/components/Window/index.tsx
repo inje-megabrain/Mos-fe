@@ -4,6 +4,7 @@ import PictureWindow from "./PictureWindow";
 import VideoWindow from "./VideoWindow";
 import MessageWindow from "./MessageWindow";
 import PromptWindow from "./PromptWindow";
+import TxtWindow from "./TxtWindow";
 
 const Window = (props: WindowHandle) => {
   switch (props.type) {
@@ -17,6 +18,8 @@ const Window = (props: WindowHandle) => {
       return <MessageWindow {...props} />;
     case "prompt":
       return <PromptWindow {...props} />;
+    case "txt":
+      return <TxtWindow {...props} />;
     default:
       return <BaseWindow {...props}>Empty Window</BaseWindow>;
   }

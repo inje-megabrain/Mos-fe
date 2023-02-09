@@ -7,21 +7,20 @@ import client from "./client";
  */
 
 type DFile = {
-  dir: string;
   file: string;
 };
 
-export async function deleteFile({ dir, file }: DFile) {
+export async function deleteFile({ file }: DFile) {
   return new Promise((res) => {
     client
       .post("/removeFile", null, {
         params: {
-          dir,
           file,
         },
       })
       .then((v) => {
         console.log(v);
+        res(null);
       });
   });
 }

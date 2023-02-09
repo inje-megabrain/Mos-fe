@@ -35,9 +35,7 @@ const DirectoryHeader = ({ path, setPath, refresh }: DirectoryHeaderProp) => {
             <span> &gt; </span>
             <PathItem
               onClick={() => {
-                const a = arr.slice(0, i + 1).join("/");
-                console.log(a);
-                setPath(a);
+                setPath(`/${arr.slice(0, i + 1).join("/")}`);
               }}
               name={p}
             />

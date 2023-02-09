@@ -15,6 +15,7 @@ export async function createFile({ dir, file }: CFile) {
   return new Promise((res) => {
     client.post("/makeFile", null, { params: { dir, file } }).then((v) => {
       console.log(v);
+      res(null);
     });
   });
 }
