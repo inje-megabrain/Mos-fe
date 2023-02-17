@@ -32,7 +32,7 @@ function handleDropEntry(
       uploadFile({ dir: window?.payload.path, files }).then(() => {
         onSuccess();
       });
-    } else if (item && !item.isDir && item.parent !== window?.payload.path) {
+    } else if (item && item.parent !== window?.payload.path) {
       // API 버그
       moveFile({ dir: item.path, mv_dir: window?.payload.path }).then(() => {
         onSuccess();
